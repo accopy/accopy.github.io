@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Maple</title>
+
+  
+    <meta name="description" content="Promise 的使用一、为什么使用Promise?我们知道 js 执行的时候，一次只能执行一个任务，它会阻塞其他任务。由于这个缺陷导致 js 的所有网络操作，浏览器事件，都必须是异步执行。异步执行可以使用回调函数执行。 常见的异步模式有以下几种：  定时器 接口调用 事件函数  1234567javascript复制代码&#x2F;&#x2F; setTimeout 示例function callBack()&amp;#1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maple">
+<meta property="og:url" content="https://bigbanana9527.github.io/2023/09/01/Promise%20%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Maple">
+<meta property="og:description" content="Promise 的使用一、为什么使用Promise?我们知道 js 执行的时候，一次只能执行一个任务，它会阻塞其他任务。由于这个缺陷导致 js 的所有网络操作，浏览器事件，都必须是异步执行。异步执行可以使用回调函数执行。 常见的异步模式有以下几种：  定时器 接口调用 事件函数  1234567javascript复制代码&#x2F;&#x2F; setTimeout 示例function callBack()&amp;#1">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-01T00:32:56.195Z">
+<meta property="article:modified_time" content="2023-08-31T23:38:18.236Z">
+<meta property="article:author" content="Maple">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/assets/avatar.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Maple</div><div class="sub normal cap">The Meaning of life is</div><div class="sub hover cap" style="opacity:0"> Meaningless</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/star">收藏</a><a class="nav-item" href="/about">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8Promise"><span class="toc-text">一、为什么使用Promise?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Promise%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-text">二、Promise基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Promise-%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8"><span class="toc-text">三、Promise 链式调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Promise-%E5%B5%8C%E5%A5%97%E4%BD%BF%E7%94%A8%E7%9A%84%E7%AE%80%E5%86%99"><span class="toc-text">四、Promise 嵌套使用的简写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81Promise%E6%96%B9%E6%B3%95"><span class="toc-text">五、Promise方法</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-09-01T00:32:56.195Z">2023-09-01</time></div></div>
+
+<article class='md-text content post'>
+
+<h1 id="Promise-的使用"><a href="#Promise-的使用" class="headerlink" title="Promise 的使用"></a>Promise 的使用</h1><h2 id="一、为什么使用Promise"><a href="#一、为什么使用Promise" class="headerlink" title="一、为什么使用Promise?"></a>一、为什么使用Promise?</h2><p>我们知道 js 执行的时候，一次只能执行一个任务，它会阻塞其他任务。由于这个缺陷导致 js 的所有网络操作，浏览器事件，都必须是异步执行。异步执行可以使用回调函数执行。</p>
+<p>常见的异步模式有以下几种：</p>
+<ul>
+<li>定时器</li>
+<li>接口调用</li>
+<li>事件函数</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">javascript复制代码<span class="comment">// setTimeout 示例</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">callBack</span>(<span class="params"></span>)&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;执行完成&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;before setTimeout&#x27;</span>)</span><br><span class="line"><span class="built_in">setTimeout</span>(callBack,<span class="number">1000</span>)<span class="comment">// 1秒后调用callBack函数</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;after setTimeout&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行后控制台输出结果为：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">arduino复制代码before setTimeout</span><br><span class="line">after setTimeout</span><br><span class="line">执行完成 <span class="comment">//1秒后打印</span></span><br></pre></td></tr></table></figure>
+
+<p>上述定时器是在固定时间触发某个回调函数。</p>
+<p>对于 ajax 网络请求就没有这么简单了，可能有多个网络请求是关联的，先执行某个请求返回结果后，第一个返回结果作为第二个请求的参数，调用第二个网络请求。如此，如果业务复杂，网络请求太多时，回调也很多，容易出现回调地狱。所以 Promise 出现了，专门解决异步回调地狱问题。</p>
+<p>Promise 翻译成中文：承诺、保证。</p>
+<p>通俗地讲，Promise 就像一个容器，里面存放着未来才会结束，返回结果的容器，返回的结果只需要在出口处接收就好了。从语法上讲，Promise 是一个对象，从它可以获取异步操作的消息。</p>
+<h2 id="二、Promise基本使用"><a href="#二、Promise基本使用" class="headerlink" title="二、Promise基本使用"></a>二、Promise基本使用</h2><p>下列用到的所有定时器模拟我们的 ajax 请求。</p>
+<p>Promise 实例化的时候，传入的参数是一个函数，函数中接收两个参数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">javascript复制代码<span class="keyword">const</span> p = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line"> <span class="title function_">resolve</span>(<span class="string">&#x27;123&#x27;</span>)</span><br><span class="line"> &#125;,<span class="number">1000</span>)</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(res) <span class="comment">//1秒后打印123</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>传入的 resolve 和 reject 本身都是函数。其作用分别为：</p>
+<p>resolve - 把 Promise 的状态从进行中变为成功状态。</p>
+<p>reject - 把 Promise 的状态从进行中变为拒绝状态。</p>
+<p><strong>Promise的三种状态：</strong></p>
+<p>pending ：进行中，表示 Promise 还在执行阶段，没有执行完成。</p>
+<p>fulfilled：成功状态，表示 Promise 成功执行完成。</p>
+<p>rejected：拒绝状态，表示 Promise 执行被拒绝，也就是失败。</p>
+<p>Promise 的状态，只可能是其中一种状态，从进行中变为成功或失败状态之后，状态就固定了，不会再发生改变。</p>
+<p><strong>Promise.then</strong></p>
+<p>执行 resolve 时，Promise 状态变为 fulfilled ，会执行 .then 方法。then 方法接收的参数也是一个函数，函数中携带一个参数，该参数是 resolve(res) 返回的数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">javascript复制代码<span class="keyword">const</span> p = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line"> <span class="title function_">resolve</span>(<span class="string">&#x27;哎呦喂&#x27;</span>)</span><br><span class="line"> &#125;,<span class="number">1000</span>)</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(res) <span class="comment">//1秒后打印哎呦喂</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>Promise.catch</strong></p>
+<p>执行 reject 时，Promise 状态从 pending 变为 rejected，会执行 catch 方法，catch 方法接收的也是一个函数，函数中携带一个参数，该参数为 reject(err) 返回的数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">javascript复制代码<span class="keyword">const</span> p = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">reject</span>(<span class="string">&#x27;error message&#x27;</span>)</span><br><span class="line">  &#125;,<span class="number">1000</span>)</span><br><span class="line"> &#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(res)<span class="comment">//不执行</span></span><br><span class="line"> &#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;err&#x27;</span>,err)<span class="comment">//1秒后打印 error message</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、Promise-链式调用"><a href="#三、Promise-链式调用" class="headerlink" title="三、Promise 链式调用"></a>三、Promise 链式调用</h2><p>制作一个模拟网络请求：</p>
+<ul>
+<li>第一次返回 a，</li>
+<li>修改返回的结果为 aa，作为第二次网络请求返回的结果。</li>
+<li>修改结果为 aaa，作为第三次返回结果。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">javascript复制代码<span class="keyword">const</span> pp = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">resolve</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"> &#125;,<span class="number">1000</span>)</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res1&#x27;</span>,res) <span class="comment">//1秒后打印 a</span></span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">   <span class="title function_">resolve</span>(res+<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">   &#125;,<span class="number">1000</span>)</span><br><span class="line"> &#125;)</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res&#x27;</span>,res) <span class="comment">//2秒后打印 aa</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">   <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="title function_">resolve</span>(res+<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">    &#125;,<span class="number">1000</span>)</span><br><span class="line">  &#125;)</span><br><span class="line"> &#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res3&#x27;</span>,res) <span class="comment">//3秒后打印 aaa</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这种场景其实就是接口的多层嵌套使用，Promise 可以把多层嵌套按照线性的方式进行书写，非常优雅。我们把 Promise 的多层嵌套调用就叫做链式调用。</p>
+<p>上述实例，有三层嵌套就 new 了 3 个Promise，代码写得比较多，我们看看在实现功能的前提下如何能够简化。</p>
+<h2 id="四、Promise-嵌套使用的简写"><a href="#四、Promise-嵌套使用的简写" class="headerlink" title="四、Promise 嵌套使用的简写"></a>四、Promise 嵌套使用的简写</h2><p>promise传入的函数参数reject是一个非必传的参数，如果不需要处理失败时的结果时，我们可以省略掉 reject 。代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">javascript复制代码<span class="comment">//简化1</span></span><br><span class="line"><span class="keyword">const</span> ppp = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">resolve</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">  &#125;,<span class="number">1000</span>)</span><br><span class="line"> &#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res1&#x27;</span>,res)</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span><span class="title function_">resolve</span>(res+<span class="string">&#x27;a&#x27;</span>))</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res&#x27;</span>,res)</span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span><span class="title function_">resolve</span>(res+<span class="string">&#x27;a&#x27;</span>))</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res3&#x27;</span>,res)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>Promise 嵌套使用时，内层的 Promise 可以省略不写，所以我们可以直接把 Promise 相关的去掉，直接返回，代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">javascript复制代码<span class="comment">//简化2</span></span><br><span class="line"><span class="keyword">const</span> pppp = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">resolve</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"> &#125;,<span class="number">1000</span>)</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="keyword">return</span>  res+<span class="string">&#x27;a&#x27;</span></span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="keyword">return</span> res+<span class="string">&#x27;a&#x27;</span></span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res3&#x27;</span>,res)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>有的同学就在想，怎么都是成功状态的举例和简写，我们的失败状态catch可以简写吗？</p>
+<p>答案是肯定的，我们简化为2层嵌套，与上述功能一致。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">typescript复制代码<span class="keyword">const</span> ppppp = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">reject</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"> &#125;,<span class="number">1000</span>)</span><br><span class="line">&#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">   <span class="title function_">reject</span>(err+<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">  &#125;,<span class="number">1000</span>)</span><br><span class="line"> &#125;)</span><br><span class="line">&#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;err&#x27;</span>,err)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//简写1</span></span><br><span class="line"><span class="keyword">const</span> pppppp = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">reject</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">  &#125;,<span class="number">1000</span>)</span><br><span class="line"> &#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span><span class="title function_">reject</span>(err+<span class="string">&#x27;a&#x27;</span>))</span><br><span class="line"> &#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;err&#x27;</span>,err)</span><br><span class="line"> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//简写2</span></span><br><span class="line"><span class="keyword">const</span> ppppppp = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">reject</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">  &#125;,<span class="number">1000</span>)</span><br><span class="line"> &#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">throw</span> err+<span class="string">&#x27;a&#x27;</span></span><br><span class="line"> &#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;err&#x27;</span>,err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>注意：失败简写省略掉Promise时，使用的 throw 抛出异常。</p>
+<h2 id="五、Promise方法"><a href="#五、Promise方法" class="headerlink" title="五、Promise方法"></a>五、Promise方法</h2><p>5.1、all 方法</p>
+<p>Promise.all 方法，提供了并行执行异步操作的能力，并且在所有异步操作完成之后，统一返回所有结果。具体使用如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">javascript复制代码<span class="title class_">Promise</span>.<span class="title function_">all</span>([</span><br><span class="line"> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span><span class="title function_">resolve</span>(<span class="string">&#x27;a&#x27;</span>)),</span><br><span class="line"> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span><span class="title function_">resolve</span>(<span class="string">&#x27;b&#x27;</span>)),</span><br><span class="line">]).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;all&#x27;</span>,res)<span class="comment">//【&#x27;a&#x27; , &#x27;b&#x27;】</span></span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>all 接收到的是一个数组，数组长度取决于 Promise 的个数。</p>
+<p>一些游戏类的素材比较多的应用，打开网页时，预先加载需要用到的各类资源，所有的都加载完后，再进行页面的初始化。</p>
+<p>5.2、race方法</p>
+<p>race翻译成中文：赛跑。就是谁跑得最快，谁才能触碰到终点的胜利线。</p>
+<p>Promise.race 用法与 all 一样，只是返回结果上不同，它返回的是执行最快的那个 Promise 的结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">javascript复制代码<span class="title class_">Promise</span>.<span class="title function_">race</span>([</span><br><span class="line"> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span></span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">   <span class="title function_">resolve</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">   &#125;,<span class="number">100</span>)</span><br><span class="line">  ),</span><br><span class="line"> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span></span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">   <span class="title function_">resolve</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">   &#125;,<span class="number">200</span>)</span><br><span class="line">  ),</span><br><span class="line"> ]).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;race&#x27;</span>,res) <span class="comment">// 返回 a</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/05/20/%E5%8E%9F%E5%BD%A2%E5%92%8C%E5%8E%9F%E5%BD%A2%E9%93%BE/">原形和原形链</a></div></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@anonymity</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
