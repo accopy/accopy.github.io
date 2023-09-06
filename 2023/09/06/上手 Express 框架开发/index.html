@@ -23,12 +23,12 @@
   <title>上手 Express 框架开发 - Maple</title>
 
   
-    <meta name="description" content="上手 Express 框架开发Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript 语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express 框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http 模块的基础上做了怎样的封装，并">
+    <meta name="description" content="Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript 语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express 框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http 模块的基础上做了怎样的封装，并掌握路由和中间件这两个关键概念">
 <meta property="og:type" content="article">
 <meta property="og:title" content="上手 Express 框架开发">
 <meta property="og:url" content="https://bigbanana9527.github.io/2023/09/06/%E4%B8%8A%E6%89%8B%20Express%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91/index.html">
 <meta property="og:site_name" content="Maple">
-<meta property="og:description" content="上手 Express 框架开发Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript 语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express 框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http 模块的基础上做了怎样的封装，并">
+<meta property="og:description" content="Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript 语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express 框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http 模块的基础上做了怎样的封装，并掌握路由和中间件这两个关键概念">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d35d87fb5fd~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
 <meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d3c90298090~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
@@ -44,7 +44,7 @@
 <meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17dddae46e6c2~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
 <meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17df2169ff130~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
 <meta property="article:published_time" content="2023-09-06T06:56:49.000Z">
-<meta property="article:modified_time" content="2023-09-06T06:58:50.091Z">
+<meta property="article:modified_time" content="2023-09-06T07:00:59.960Z">
 <meta property="article:author" content="Maple">
 <meta property="article:tag" content="node框架">
 <meta name="twitter:card" content="summary">
@@ -115,7 +115,7 @@
 
 <article class='md-text content post'>
 <h1 class="article-title"><span>上手 Express 框架开发</span></h1>
-<h1 id="上手-Express-框架开发"><a href="#上手-Express-框架开发" class="headerlink" title="上手 Express 框架开发"></a>上手 Express 框架开发</h1><p>Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript 语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express 框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http 模块的基础上做了怎样的封装，并掌握路由和中间件这两个关键概念，学习和使用模板引擎、静态文件服务、错误处理和 JSON API，最终开发出一个简单的个人简历网站。</p>
+<p>Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript 语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express 框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http 模块的基础上做了怎样的封装，并掌握路由和中间件这两个关键概念，学习和使用模板引擎、静态文件服务、错误处理和 JSON API，最终开发出一个简单的个人简历网站。</p>
 <blockquote>
 <p>此教程属于 <a href="https://link.juejin.cn/?target=https://github.com/tuture-dev/nodejs-roadmap">Node.js 后端工程师学习路线</a>的一部分，欢迎来 Star 一波，鼓励我们继续创作出更好的教程，持续更新中~。</p>
 </blockquote>
