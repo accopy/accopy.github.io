@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>上手 Express 框架开发 - Maple</title>
+
+  
+    <meta name="description" content="上手 Express 框架开发Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript 语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express 框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http 模块的基础上做了怎样的封装，并">
+<meta property="og:type" content="article">
+<meta property="og:title" content="上手 Express 框架开发">
+<meta property="og:url" content="https://bigbanana9527.github.io/2023/09/06/%E4%B8%8A%E6%89%8B%20Express%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:site_name" content="Maple">
+<meta property="og:description" content="上手 Express 框架开发Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript 语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express 框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http 模块的基础上做了怎样的封装，并">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d35d87fb5fd~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d3c90298090~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d76350b7033~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d7a0bb118e8~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d8e24134a09~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d912786e9f2~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d93aacba1cb~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d957c1cc50b~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d991056995c~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17db29be5261e~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17ddad1889917~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17dddae46e6c2~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17df2169ff130~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+<meta property="article:published_time" content="2023-09-06T06:56:49.000Z">
+<meta property="article:modified_time" content="2023-09-06T06:58:50.091Z">
+<meta property="article:author" content="Maple">
+<meta property="article:tag" content="node框架">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d35d87fb5fd~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp">
+  
+  
+  
+  <meta name="keywords" content="node框架">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/assets/avatar.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Maple</div><div class="sub normal cap">The Meaning of life is</div><div class="sub hover cap" style="opacity:0"> Meaningless</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/star">收藏</a><a class="nav-item" href="/about">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">上手 Express 框架开发</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A7%E6%97%B6%E4%BB%A3%EF%BC%9A%E7%94%A8%E5%86%85%E7%BD%AE-http-%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">旧时代：用内置 http 模块实现一个服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-text">预备知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%80%E7%94%A8%E6%8A%80%E6%9C%AF"><span class="toc-text">所用技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E5%86%85%E7%BD%AE-http-%E6%A8%A1%E5%9D%97%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">用内置 http 模块创建服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E6%97%B6%E4%BB%A3%EF%BC%9A%E7%94%A8-Express-%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">新时代：用 Express 搭建服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E5%BC%BA%E5%A4%A7%E7%9A%84-Request-%E5%92%8C-Response-%E5%AF%B9%E8%B1%A1"><span class="toc-text">更强大的 Request 和 Response 对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%9C%BA%E5%88%B6"><span class="toc-text">路由机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nodemon-%E5%8A%A0%E9%80%9F%E5%BC%80%E5%8F%91"><span class="toc-text">nodemon 加速开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%BC%8F%E5%AE%9E%E7%8E%B0"><span class="toc-text">正式实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E7%AC%AC%E4%B8%80%E4%B8%AA%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-text">编写第一个中间件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%90%86%E8%A7%A3%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-text">理解中间件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Express-%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">Express 中间件的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-text">全局中间件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-text">路由中间件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-text">编写中间件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E%E6%B8%B2%E6%9F%93%E9%A1%B5%E9%9D%A2"><span class="toc-text">用模板引擎渲染页面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1"><span class="toc-text">添加静态文件服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%84%E7%90%86-404-%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%94%99%E8%AF%AF"><span class="toc-text">处理 404 和服务器错误</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%84%E7%90%86-404"><span class="toc-text">处理 404</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E5%86%85%E9%83%A8%E9%94%99%E8%AF%AF"><span class="toc-text">处理内部错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91"><span class="toc-text">实现自定义处理逻辑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-JSON-API"><span class="toc-text">三行代码实现 JSON API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%AD%90%E8%B7%AF%E7%94%B1%E6%8B%86%E5%88%86%E9%80%BB%E8%BE%91"><span class="toc-text">使用子路由拆分逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%BC%8F%E5%AE%9E%E7%8E%B0-1"><span class="toc-text">正式实现</span></a></li></ol></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/node/">node</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-09-06T06:56:49.000Z">2023-09-06</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>上手 Express 框架开发</span></h1>
+<h1 id="上手-Express-框架开发"><a href="#上手-Express-框架开发" class="headerlink" title="上手 Express 框架开发"></a>上手 Express 框架开发</h1><p>Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript 语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express 框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http 模块的基础上做了怎样的封装，并掌握路由和中间件这两个关键概念，学习和使用模板引擎、静态文件服务、错误处理和 JSON API，最终开发出一个简单的个人简历网站。</p>
+<blockquote>
+<p>此教程属于 <a href="https://link.juejin.cn/?target=https://github.com/tuture-dev/nodejs-roadmap">Node.js 后端工程师学习路线</a>的一部分，欢迎来 Star 一波，鼓励我们继续创作出更好的教程，持续更新中~。</p>
+</blockquote>
+<h2 id="旧时代：用内置-http-模块实现一个服务器"><a href="#旧时代：用内置-http-模块实现一个服务器" class="headerlink" title="旧时代：用内置 http 模块实现一个服务器"></a>旧时代：用内置 http 模块实现一个服务器</h2><p>自从 Ryan Dahl 在 2009 年的 JSConf 正式推出 Node.js 平台后，这门技术的使用率就如同坐了火箭一般迅速上升，成为了最受喜爱的后端开发平台之一，而 Express 则是其中最为耀眼的 Web 框架。在正式开始这篇教程之前，我们将列举一下这篇教程所需要的预备知识、所用技术和学习目标。</p>
+<h3 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h3><p>本教程假定你已经知道了：</p>
+<ul>
+<li>JavaScript 语言基础知识（包括一些常用的 ES6+ 语法）</li>
+<li>Node.js 基础知识，特别是异步编程（这篇教程主要用到的是回调函数）和 Node 模块机制，还有 npm 的基本使用，可以参考<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904020813807629">这篇教程</a>进行学习</li>
+<li>HTTP 协议基础知识，浏览器和服务器之间是如何互动的</li>
+</ul>
+<h3 id="所用技术"><a href="#所用技术" class="headerlink" title="所用技术"></a>所用技术</h3><ul>
+<li><strong>Node.js</strong>：8.x 及以上</li>
+<li><strong>npm</strong>：6.x 及以上</li>
+<li><strong>Express.js</strong>：4.x</li>
+</ul>
+<h3 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h3><p>读完这篇教程后，你将学会</p>
+<ul>
+<li>Express 框架的两大核心概念：路由和中间件</li>
+<li>用 Nodemon 加速开发迭代</li>
+<li>使用模板引擎渲染页面，并接入 Express 框架中</li>
+<li>使用 Express 的静态文件服务</li>
+<li>编写自定义的错误处理函数</li>
+<li>实现一个简单的 JSON API 端口</li>
+<li>通过子路由拆分逻辑，实现模块化</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>虽然数据库是后端开发中非常重要的环节，但 Express 并不内置处理数据库的模块，需要额外的第三方库提供支持。这篇教程将重点放在了 Express 相关的概念讲解上，因此不会涉及数据库的开发。在学完这篇教程后，你可以浏览 Express 相关的<a href="https://link.juejin.cn/?target=https://tuture.co/2019/10/16/a0531f0/?utm_source=juejin_zhuanlan">进阶教程</a>。</p>
+</blockquote>
+<h3 id="用内置-http-模块创建服务器"><a href="#用内置-http-模块创建服务器" class="headerlink" title="用内置 http 模块创建服务器"></a>用内置 http 模块创建服务器</h3><p>在讲解 Express 之前，我们先了解一下怎么用 Node.js 内置的 http 模块来实现一个服务器，从而能够更好地了解 Express 对底层的 Node 代码做了哪些抽象和封装。如果你还没有安装 Node.js，可以去<a href="https://link.juejin.cn/?target=https://nodejs.org/">官方网站</a>下载并安装。</p>
+<p>我们将实现一个个人简历网站。创建一个文件夹 express_resume，并进入其中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复制代码mkdir express_resume &amp;&amp; cd express_resume</span><br></pre></td></tr></table></figure>
+
+<p>创建 server.js 文件，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">复制代码const http = require(&#x27;http&#x27;);</span><br><span class="line"></span><br><span class="line">const hostname = &#x27;localhost&#x27;;</span><br><span class="line">const port = 3000;</span><br><span class="line"></span><br><span class="line">const server = http.createServer((req, res) =&gt; &#123;</span><br><span class="line">  res.statusCode = 200;</span><br><span class="line">  res.setHeader(&#x27;Content-Type&#x27;, &#x27;text/html&#x27;);</span><br><span class="line">  res.end(&#x27;Hello World\n&#x27;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.listen(port, () =&gt; &#123;</span><br><span class="line">  console.log(`Server running at http://$&#123;hostname&#125;:$&#123;port&#125;/`);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>如果你熟悉 Node.js，上面的代码含义很清晰：</p>
+<ol>
+<li>导入 http 模块</li>
+<li>指定服务器的主机名 <code>hostname</code> 和端口号 <code>port</code></li>
+<li>用 <code>http.createServer</code> 创建 HTTP 服务器，参数为一个回调函数，接受一个请求对象 <code>req</code> 和响应对象 <code>res</code>，并在回调函数中写入响应内容（状态码 200，类型为 HTML 文档，内容为 <code>Hello World</code>）</li>
+<li>在指定的端口开启服务器</li>
+</ol>
+<p>最后运行 server.js：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复制代码node server.js</span><br></pre></td></tr></table></figure>
+
+<p>用浏览器打开 <a href="https://link.juejin.cn/?target=">localhost:3000</a>，可以看到 Hello World 的提示：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d35d87fb5fd~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" alt="img"/></div><div class="image-meta"><span class="image-caption center">img</span></div></div>
+
+
+
+<p>可以发现，直接用内置的 http 模块去开发服务器有以下明显的弊端：</p>
+<ul>
+<li><strong>需要写很多底层代码</strong>——例如手动指定 HTTP 状态码和头部字段，最终返回内容。如果我们需要开发更复杂的功能，涉及到多种状态码和头部信息（例如用户鉴权），这样的手动管理模式非常不方便</li>
+<li><strong>没有专门的路由机制</strong>——路由是服务器最重要的功能之一，通过路由才能根据客户端的不同请求 URL 及 HTTP 方法来返回相应内容。但是上面这段代码只能在 <code>http.createServer</code> 的回调函数中通过判断请求 <code>req</code> 的内容才能实现路由功能，搭建大型应用时力不从心</li>
+</ul>
+<p>由此就引出了 Express 对内置 http 的两大封装和改进：</p>
+<ul>
+<li>更强大的请求（Request）和响应（Response）对象，添加了很多实用方法</li>
+<li>灵活方便的路由的定义与解析，能够很方便地进行代码拆分</li>
+</ul>
+<p>接下来，我们将开始用 Express 来开发 Web 服务器！</p>
+<h2 id="新时代：用-Express-搭建服务器"><a href="#新时代：用-Express-搭建服务器" class="headerlink" title="新时代：用 Express 搭建服务器"></a>新时代：用 Express 搭建服务器</h2><p>在第一步中，我们把服务器放在了一个 JS 文件中，也就是一个 Node 模块。从现在开始，我们将把这个项目变成一个 npm 项目。输入以下命令创建 npm 项目：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复制代码npm init</span><br></pre></td></tr></table></figure>
+
+<p>接着你可以一路回车下去（当然也可以仔细填），就会发现 package.json 文件已经创建好了。然后添加 Express 项目依赖：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复制代码npm install express</span><br></pre></td></tr></table></figure>
+
+<p>在开始用 Express 改写上面的服务器之前，我们先介绍一下上面提到的<strong>两大封装与改进</strong>。</p>
+<h3 id="更强大的-Request-和-Response-对象"><a href="#更强大的-Request-和-Response-对象" class="headerlink" title="更强大的 Request 和 Response 对象"></a>更强大的 Request 和 Response 对象</h3><p>首先是 Request 请求对象，通常我们习惯用 <code>req</code> 变量来表示。下面列举一些 <code>req</code> 上比较重要的成员（如果不知道是什么也没关系哦）：</p>
+<ul>
+<li><code>req.body</code>：客户端请求体的数据，可能是表单或 JSON 数据</li>
+<li><code>req.params</code>：请求 URI 中的路径参数</li>
+<li><code>req.query</code>：请求 URI 中的查询参数</li>
+<li><code>req.cookies</code>：客户端的 cookies</li>
+</ul>
+<p>然后是 Response 响应对象，通常用 <code>res</code> 变量来表示，可以执行一系列响应操作，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">复制代码// 发送一串 HTML 代码</span><br><span class="line">res.send(&#x27;HTML String&#x27;);</span><br><span class="line"></span><br><span class="line">// 发送一个文件</span><br><span class="line">res.sendFile(&#x27;file.zip&#x27;);</span><br><span class="line"></span><br><span class="line">// 渲染一个模板引擎并发送</span><br><span class="line">res.render(&#x27;index&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>Response 对象上的操作非常丰富，并且还可以链式调用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">复制代码// 设置状态码为 404，并返回 Page Not Found 字符串</span><br><span class="line">res.status(404).send(&#x27;Page Not Found&#x27;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>提示</strong></p>
+<p>在这里我们并没有简单地列举 Request 和 Response 的<a href="https://link.juejin.cn/?target=http://expressjs.com/en/4x/api.html">全部 API</a> ，因为<a href="https://link.juejin.cn/?target=https://tuture.co/?utm_source=juejin_zhuanlan">图雀社区</a>的理念是——从实战中学习和深化理解，拒绝枯燥的 API 记忆！</p>
+</blockquote>
+<h3 id="路由机制"><a href="#路由机制" class="headerlink" title="路由机制"></a>路由机制</h3><p>客户端（包括 Web 前端、移动端等等）向服务器发起请求时包括两个元素：<strong>路径</strong>（URI）以及 <strong>HTTP 请求方法</strong>（包括 GET、POST 等等）。路径和请求方法合起来一般被称为 API 端点（Endpoint）。而服务器根据客户端访问的端点选择相应处理逻辑的机制就叫做路由。</p>
+<p>在 Express 中，定义路由只需按下面这样的形式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复制代码app.METHOD(PATH, HANDLER)</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li><code>app</code> 就是一个 <code>express</code> 服务器对象</li>
+<li><code>METHOD</code> 可以是任何<strong>小写</strong>的 HTTP 请求方法，包括 <code>get</code>、<code>post</code>、<code>put</code>、<code>delete</code> 等等</li>
+<li><code>PATH</code> 是客户端访问的 URI，例如 <code>/</code> 或 <code>/about</code></li>
+<li><code>HANDLER</code> 是路由被触发时的回调函数，在函数中可以执行相应的业务逻辑</li>
+</ul>
+<h3 id="nodemon-加速开发"><a href="#nodemon-加速开发" class="headerlink" title="nodemon 加速开发"></a>nodemon 加速开发</h3><p><a href="https://link.juejin.cn/?target=https://www.npmjs.com/package/nodemon">Nodemon</a> 是一款颇受欢迎的开发服务器，能够检测工作区代码的变化，并自动重启。通过以下命令安装 nodemon：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复制代码npm install nodemon --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>这里我们将 nodemon 安装为开发依赖 <code>devDependencies</code>，因为仅仅只有在开发时才需要用到。同时我们在 package.json 中加入 <code>start</code> 命令，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">复制代码&#123;</span><br><span class="line">  &quot;name&quot;: &quot;express_resume&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;index.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;start&quot;: &quot;nodemon server.js&quot;,</span><br><span class="line">    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;author&quot;: &quot;&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;</span><br><span class="line">    &quot;express&quot;: &quot;^4.17.1&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;nodemon&quot;: &quot;^2.0.2&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="正式实现"><a href="#正式实现" class="headerlink" title="正式实现"></a>正式实现</h3><p>到了动手的时候了，我们用 Express 改写上面的服务器，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">复制代码const express = require(&#x27;express&#x27;);</span><br><span class="line"></span><br><span class="line">const hostname = &#x27;localhost&#x27;;</span><br><span class="line">const port = 3000;</span><br><span class="line"></span><br><span class="line">const app = express();</span><br><span class="line">app.get(&#x27;/&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  res.send(&#x27;Hello World&#x27;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(port, () =&gt; &#123;</span><br><span class="line">  console.log(`Server running at http://$&#123;hostname&#125;:$&#123;port&#125;/`);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们首先用 <code>express()</code> 函数创建一个 Express 服务器对象，然后用上面提到的路由定义方法 <code>app.get</code> 定义了主页 <code>/</code> 的路由，最后同样调用 <code>listen</code> 方法开启服务器。</p>
+<p>从这一步开始，我们运行 <code>npm start</code> 命令即可开启服务器，并且同样可以看到 Hello World 的内容，但是代码却简单明了了不少。</p>
+<blockquote>
+<p><strong>提示</strong></p>
+<p>在运行 <code>npm start</code> 之后，可以让服务器一直打开着，编辑代码并保存后，Nodemon 就会自动重启服务器，运行最新的代码。</p>
+</blockquote>
+<h2 id="编写第一个中间件"><a href="#编写第一个中间件" class="headerlink" title="编写第一个中间件"></a>编写第一个中间件</h2><p>接下来我们开始讲解 Express 第二个重要的概念：<strong>中间件</strong>（Middleware）。</p>
+<h3 id="理解中间件"><a href="#理解中间件" class="headerlink" title="理解中间件"></a>理解中间件</h3><p>中间件并不是 Express 独有的概念。相反，它是一种广为使用的软件工程概念（甚至已经延伸到了其他行业），是指<strong>将具体的业务逻辑和底层逻辑解耦的组件</strong>（可查看这个<a href="https://link.juejin.cn/?target=https://www.zhihu.com/question/19730582">讨论</a>）。换句话说，中间件就是能够适用多个应用场景、可复用性良好的代码。</p>
+<p>Express 的简化版中间件流程如下图所示：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d3c90298090~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" alt="img"/></div><div class="image-meta"><span class="image-caption center">img</span></div></div>
+
+
+
+<p>首先客户端向服务器发起请求，然后服务器依次执行每个中间件，最后到达路由，选择相应的逻辑来执行。</p>
+<blockquote>
+<p><strong>提示</strong></p>
+<p>这个是一个简化版的流程描述，目的是便于你对中间件有个初步的认识，在后面的章节中我们将进一步完善这一流程。</p>
+</blockquote>
+<p>有两点需要特别注意：</p>
+<ul>
+<li>中间件是<strong>按顺序执行</strong>的，因此在配置中间件时顺序非常重要，不能弄错</li>
+<li>中间件在执行内部逻辑的时候可以选择将请求传递给下一个中间件，也可以直接返回用户响应</li>
+</ul>
+<h3 id="Express-中间件的定义"><a href="#Express-中间件的定义" class="headerlink" title="Express 中间件的定义"></a>Express 中间件的定义</h3><p>在 Express 中，中间件就是一个函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">复制代码function someMiddleware(req, res, next) &#123;</span><br><span class="line">  // 自定义逻辑</span><br><span class="line">  next();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>三个参数中，<code>req</code> 和 <code>res</code> 就是前面提到的 Request 请求对象和 Response 响应对象；而 <code>next</code> 函数则用来触发下一个中间件的执行。</p>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>如果忘记在中间件中调用 <code>next</code> 函数，并且又不直接返回响应时，服务器会直接卡在这个中间件不会继续执行下去哦！</p>
+</blockquote>
+<p>在 Express 使用中间件有两种方式：<strong>全局中间件</strong>和<strong>路由中间件</strong>。</p>
+<h4 id="全局中间件"><a href="#全局中间件" class="headerlink" title="全局中间件"></a>全局中间件</h4><p>通过 <code>app.use</code> 函数就可以注册中间件，并且此中间件会在用户发起<strong>任何请求</strong>都可能会执行，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复制代码app.use(someMiddleware);</span><br></pre></td></tr></table></figure>
+
+<h4 id="路由中间件"><a href="#路由中间件" class="headerlink" title="路由中间件"></a>路由中间件</h4><p>通过在路由定义时注册中间件，此中间件只会在用户访问该路由对应的 URI 时执行，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">复制代码app.get(&#x27;/middleware&#x27;, someMiddleware, (req, res) =&gt; &#123;</span><br><span class="line">  res.send(&#x27;Hello World&#x27;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>那么用户只有在访问 <code>/middleware</code> 时，定义的 <code>someMiddleware</code> 中间件才会被触发，访问其他路径时不会触发。</p>
+<h3 id="编写中间件"><a href="#编写中间件" class="headerlink" title="编写中间件"></a>编写中间件</h3><p>接下来我们就开始实现第一个 Express 中间件。功能很简单，就是在终端打印客户端的访问时间、 HTTP 请求方法和 URI，名为 <code>loggingMiddleware</code>。代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">复制代码// ...</span><br><span class="line"></span><br><span class="line">const app = express();</span><br><span class="line"></span><br><span class="line">function loggingMiddleware(req, res, next) &#123;</span><br><span class="line">  const time = new Date();</span><br><span class="line">  console.log(`[$&#123;time.toLocaleString()&#125;] $&#123;req.method&#125; $&#123;req.url&#125;`);</span><br><span class="line">  next();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">app.use(loggingMiddleware);</span><br><span class="line"></span><br><span class="line">app.get(&#x27;/&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  res.send(&#x27;Hello World&#x27;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// ...</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong></p>
+<p>在中间件中写 <code>console.log</code> 语句是比较糟糕的做法，因为 <code>console.log</code>（包括其他同步的代码）都会阻塞 Node.js 的异步事件循环，降低服务器的吞吐率。在实际生产中，推荐使用第三方优秀的日志中间件，例如 <a href="https://link.juejin.cn/?target=https://www.npmjs.com/package/morgan">morgan</a>、<a href="https://link.juejin.cn/?target=https://www.npmjs.com/package/winston">winston</a> 等等。</p>
+</blockquote>
+<p>运行服务器，然后用浏览器尝试访问各个路径。这里我访问了首页（<a href="https://link.juejin.cn/?target=">localhost:3000</a>）和 <code>/hello</code>（<a href="https://link.juejin.cn/?target=">localhost:3000&#x2F;hello</a>，浏览器应该看到的是 404），可以看到控制台相应的输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">复制代码[11/28/2019, 3:54:05 PM] GET /</span><br><span class="line">[11/28/2019, 3:54:11 PM] GET /hello</span><br></pre></td></tr></table></figure>
+
+<p>这里为了让你初步理解中间件的概念，我们只实现了一个功能很简单的中间件。实际上，中间件不仅可以读取 <code>req</code> 对象上的各个属性，还可以添加新的属性或修改已有的属性（后面的中间件和路由函数都可以获取），能够很方便地实现一些复杂的业务逻辑（例如用户鉴权）。</p>
+<h2 id="用模板引擎渲染页面"><a href="#用模板引擎渲染页面" class="headerlink" title="用模板引擎渲染页面"></a>用模板引擎渲染页面</h2><p>最后，我们的网站要开始展示一些实际内容了。Express 对当今主流的模板引擎（例如 Pug、Handlebars、EJS 等等）提供了很好的支持，可以做到两行代码接入。</p>
+<blockquote>
+<p><strong>提示</strong></p>
+<p>如果你不了解模板引擎，不用担心，这篇教程几乎不需要用到它的高级功能，你只需理解成一个“升级版的 HTML 文档”即可。</p>
+</blockquote>
+<p>这篇教程将使用 <a href="https://link.juejin.cn/?target=https://www.npmjs.com/package/handlebars">Handlebars</a> 作为模板引擎。首先添加 npm 包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复制代码npm install hbs</span><br></pre></td></tr></table></figure>
+
+<p>创建 views 文件夹，用于放置所有的模板。然后在其中创建首页模板 index.hbs，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">复制代码&lt;h1&gt;个人简历&lt;/h1&gt;</span><br><span class="line">&lt;p&gt;我是一只小小的图雀，渴望学习技术，磨炼实战本领。&lt;/p&gt;</span><br><span class="line">&lt;a href=&quot;/contact&quot;&gt;联系方式&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+<p>创建联系页面模板 contact.hbs，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">复制代码&lt;h1&gt;联系方式&lt;/h1&gt;</span><br><span class="line">&lt;p&gt;QQ：1234567&lt;/p&gt;</span><br><span class="line">&lt;p&gt;微信：一只图雀&lt;/p&gt;</span><br><span class="line">&lt;p&gt;邮箱：mrc@tuture.co&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+
+<p>最后便是在 server.js 中配置和使用模板。配置模板的代码非常简单：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">复制代码// 指定模板存放目录</span><br><span class="line">app.set(&#x27;views&#x27;, &#x27;/path/to/templates&#x27;);</span><br><span class="line"></span><br><span class="line">// 指定模板引擎为 Handlebars</span><br><span class="line">app.set(&#x27;view engine&#x27;, &#x27;hbs&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>在使用模板时，只需在路由函数中调用 <code>res.render</code> 方法即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">复制代码// 渲染名称为 hello.hbs 的模板</span><br><span class="line">res.render(&#x27;hello&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>修改后的 server.js 代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">复制代码// ...</span><br><span class="line"></span><br><span class="line">const app = express();</span><br><span class="line"></span><br><span class="line">app.set(&#x27;views&#x27;, &#x27;views&#x27;);</span><br><span class="line">app.set(&#x27;view engine&#x27;, &#x27;hbs&#x27;);</span><br><span class="line"></span><br><span class="line">// 定义和使用 loggingMiddleware 中间件 ...</span><br><span class="line"></span><br><span class="line">app.get(&#x27;/&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  res.render(&#x27;index&#x27;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(&#x27;/contact&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  res.render(&#x27;contact&#x27;);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// ...</span><br></pre></td></tr></table></figure>
+
+<p>注意在上面的代码中，我们添加了 <code>GET /contact</code> 的路由定义。</p>
+<p>最后，我们再次运行服务器，访问我们的主页，可以看到：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d76350b7033~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" alt="img"/></div><div class="image-meta"><span class="image-caption center">img</span></div></div>
+
+
+
+<p>点击”联系方式“，跳转到相应页面：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d7a0bb118e8~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" alt="img"/></div><div class="image-meta"><span class="image-caption center">img</span></div></div>
+
+
+
+<h2 id="添加静态文件服务"><a href="#添加静态文件服务" class="headerlink" title="添加静态文件服务"></a>添加静态文件服务</h2><p>通常网站需要提供静态文件服务，例如图片、CSS 文件、JS 文件等等，而 Express 已经自带了静态文件服务中间件 <code>express.static</code>，使用起来非常方便。</p>
+<p>例如，我们添加静态文件中间件如下，并指定静态资源根目录为 <code>public</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">复制代码// ...</span><br><span class="line"></span><br><span class="line">app.use(express.static(&#x27;public&#x27;));</span><br><span class="line"></span><br><span class="line">app.get(&#x27;/&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  res.render(&#x27;index&#x27;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// ...</span><br></pre></td></tr></table></figure>
+
+<p>假设项目的 public 目录里面有这些静态文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">复制代码public</span><br><span class="line">├── css</span><br><span class="line">│   └── style.css</span><br><span class="line">└── img</span><br><span class="line">    └── tuture-logo.png</span><br></pre></td></tr></table></figure>
+
+<p>就可以分别通过以下路径访问：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">复制代码http://localhost:3000/css/style.css</span><br><span class="line">http://localhost:3000/img/tuture-logo.png</span><br></pre></td></tr></table></figure>
+
+<p>样式文件 public&#x2F;css&#x2F;style.css 的代码如下（直接复制粘贴即可）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">复制代码body &#123;</span><br><span class="line">  text-align: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">h1 &#123;</span><br><span class="line">  color: blue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">img &#123;</span><br><span class="line">  border: 1px dashed grey;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">a &#123;</span><br><span class="line">  color: blueviolet;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>图片文件可通过这个 GitHub 上的<a href="https://link.juejin.cn/?target=https://github.com/mRcfps/express_resume/raw/master/public/img/tuture-logo.png">链接</a>下载，然后下载到 public&#x2F;img 目录中。当然，你也可以使用自己的图片，记得在模板中替换相应的链接就可以了。</p>
+<p>在首页模板 views&#x2F;index.hbs 中加入 CSS 样式表和图片：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">复制代码&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/style.css&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;h1&gt;个人简历&lt;/h1&gt;</span><br><span class="line">&lt;img src=&quot;/img/tuture-logo.png&quot; alt=&quot;Logo&quot; /&gt;</span><br><span class="line">&lt;p&gt;我是一只小小的图雀，渴望学习技术，磨炼实战本领。&lt;/p&gt;</span><br><span class="line">&lt;a href=&quot;/contact&quot;&gt;联系方式&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在联系模板 views&#x2F;contact.hbs 中加入样式表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">复制代码&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/style.css&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;h1&gt;联系方式&lt;/h1&gt;</span><br><span class="line">&lt;p&gt;QQ：1234567&lt;/p&gt;</span><br><span class="line">&lt;p&gt;微信：一只图雀&lt;/p&gt;</span><br><span class="line">&lt;p&gt;邮箱：mrc@tuture.co&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+
+<p>再次运行服务器，并访问我们的网站。首页如下：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d8e24134a09~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" alt="img"/></div><div class="image-meta"><span class="image-caption center">img</span></div></div>
+
+
+
+<p>联系我们页面如下：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d912786e9f2~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" alt="img"/></div><div class="image-meta"><span class="image-caption center">img</span></div></div>
+
+
+
+<p>可以看到样式表和图片都成功加载出来了！</p>
+<h2 id="处理-404-和服务器错误"><a href="#处理-404-和服务器错误" class="headerlink" title="处理 404 和服务器错误"></a>处理 404 和服务器错误</h2><p>人有悲欢离合，月有阴晴圆缺，服务器也有出错的时候。HTTP 错误一般分为两大类：</p>
+<ul>
+<li>客户端方面的错误（状态码 4xx），例如访问了不存在的页面（404）、权限不够（403）等等</li>
+<li>服务器方面的错误（状态码 5xx），例如服务器内部出现错误（500）或网关错误（503）等等</li>
+</ul>
+<p>如果你打开服务器，访问一个不存在的路径，例如 <code>localhost:3000/what</code>，就会出现这样的页面：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d93aacba1cb~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" alt="img"/></div><div class="image-meta"><span class="image-caption center">img</span></div></div>
+
+
+
+<p>很显然，这样的用户体验是很糟糕的。</p>
+<p>在这一节中，我们将讲解如何在 Express 框架中处理 404（页面不存在）及 500（服务器内部错误）。在此之前，我们要完善一下 Express 中间件的运作流程，如下图所示：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d957c1cc50b~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" alt="img"/></div><div class="image-meta"><span class="image-caption center">img</span></div></div>
+
+
+
+<p>这张示意图和之前的图有两点重大区别：</p>
+<ul>
+<li>每个路由定义本质上是一个<strong>中间件</strong>（更准确地说是一个<strong>中间件容器</strong>，可包含多个中间件），当 URI 匹配成功时直接返回响应，匹配失败时继续执行下一个路由</li>
+<li>每个中间件（包括路由）不仅可以调用 <code>next</code> 函数向下传递、直接返回响应，还可以<strong>抛出异常</strong></li>
+</ul>
+<p>从这张图就可以很清晰地看出怎么实现 404 和服务器错误的处理了：</p>
+<ul>
+<li>对于 404，只需在所有路由之后再加一个中间件，用来接收所有路由均匹配失败的请求</li>
+<li>对于错误处理，前面所有中间件抛出异常时都会进入错误处理函数，可以使用 Express 自带的，也可以自定义。</li>
+</ul>
+<h3 id="处理-404"><a href="#处理-404" class="headerlink" title="处理 404"></a>处理 404</h3><p>在 Express 中，可以通过中间件的方式处理访问不存在的路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">复制代码app.use(&#x27;*&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>*</code> 表示匹配任何路径。将此中间件放在所有路由后面，即可捕获所有访问路径均匹配失败的请求。</p>
+<h3 id="处理内部错误"><a href="#处理内部错误" class="headerlink" title="处理内部错误"></a>处理内部错误</h3><p>Express 已经自带了错误处理机制，我们先来体验一下。在 server.js 中添加下面这条”坏掉“的路由（模拟现实中出错的情形）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">复制代码app.get(&#x27;/broken&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  throw new Error(&#x27;Broken!&#x27;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>然后开启服务器，访问 <code>localhost:3000/broken</code>：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17d991056995c~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" alt="img"/></div><div class="image-meta"><span class="image-caption center">img</span></div></div>
+
+
+
+<blockquote>
+<p><strong>危险！</strong></p>
+<p>服务器直接返回了出错的调用栈！很明显，向用户返回这样的调用栈不仅体验糟糕，而且大大增加了被攻击的风险。</p>
+</blockquote>
+<p>实际上，Express 的默认错误处理机制可以通过设置 <code>NODE_ENV</code> 来进行切换。我们将其设置为生产环境 <code>production</code>，再开启服务器。如果你在 Linux、macOS 或 Windows 下的 Git Bash 环境中，可以运行以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复制代码NODE_ENV=production node server.js</span><br></pre></td></tr></table></figure>
+
+<p>如果你在 Windows 下的命令行，运行以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">复制代码set NODE_ENV=production</span><br><span class="line">node server.js</span><br></pre></td></tr></table></figure>
+
+<p>这时候访问 <code>localhost:3000/broken</code> 就会直接返回 Internal Server Error（服务器内部错误），不会显示任何错误信息：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17db29be5261e~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" alt="img"/></div><div class="image-meta"><span class="image-caption center">img</span></div></div>
+
+
+
+<p>体验还是很不好，更理想的情况是能够返回一个友好的自定义页面。这可以通过 Express 的自定义错误处理函数来解决，错误处理函数的形式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">复制代码function (err, req, res, next) &#123;</span><br><span class="line">  // 处理错误逻辑</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>和普通的中间件函数相比，多了第一个参数，也就是 <code>err</code> 异常对象。</p>
+<h3 id="实现自定义处理逻辑"><a href="#实现自定义处理逻辑" class="headerlink" title="实现自定义处理逻辑"></a>实现自定义处理逻辑</h3><p>通过上面的讲解，实现自定义的 404 和错误处理逻辑也就非常简单了。在 server.js 所有路由的后面添加如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">复制代码// 中间件和其他路由 ...</span><br><span class="line"></span><br><span class="line">app.use(&#x27;*&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  res.status(404).render(&#x27;404&#x27;, &#123; url: req.originalUrl &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.use((err, req, res, next) =&gt; &#123;</span><br><span class="line">  console.error(err.stack);</span><br><span class="line">  res.status(500).render(&#x27;500&#x27;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(port, () =&gt; &#123;</span><br><span class="line">  console.log(`Server running at http://$&#123;hostname&#125;:$&#123;port&#125;/`);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>提示</strong></p>
+<p>在编写处理 404 的逻辑时，我们用到了模板引擎中的变量插值功能。具体而言，在 <code>res.render</code> 方法中将需要传给模板的数据作为第二个参数（例如这里的 <code>&#123; url: req.originalUrl &#125;</code> 传入了用户访问的路径），在模板中就可以通过 <code>&#123;&#123; url &#125;&#125;</code> 获取数据了。</p>
+</blockquote>
+<p>404 和 500 的模板代码分别如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">复制代码&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/style.css&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;h1&gt;找不到你要的页面了！&lt;/h1&gt;</span><br><span class="line">&lt;p&gt;你所访问的路径 &#123;&#123; url &#125;&#125; 不存在&lt;/p&gt;</span><br><span class="line">复制代码&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/style.css&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;h1&gt;服务器好像开小差了&lt;/h1&gt;</span><br><span class="line">&lt;p&gt;过一会儿再试试看吧！See your later~&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+
+<p>再次运行服务器，访问一个不存在的路径：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17ddad1889917~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" alt="img"/></div><div class="image-meta"><span class="image-caption center">img</span></div></div>
+
+
+
+<p>访问 <code>localhost:3000/broken</code>：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17dddae46e6c2~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" alt="img"/></div><div class="image-meta"><span class="image-caption center">img</span></div></div>
+
+
+
+<p>体验很不错！</p>
+<h2 id="三行代码实现-JSON-API"><a href="#三行代码实现-JSON-API" class="headerlink" title="三行代码实现 JSON API"></a>三行代码实现 JSON API</h2><p>在这篇教程的最后，我们将实现一个非常简单的 JSON API。如果你有过其他后端 API 开发（特别是 Java）的经验，那么你一定会觉得用 Express 实现一个 JSON API 端口简单得不可思议。在之前提到的 Response 对象中，Express 为我们封装了一个 <code>json</code> 方法，直接就可以将一个 JavaScript 对象作为 JSON 数据返回，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复制代码res.json(&#123; name: &#x27;百万年薪&#x27;, price: 996 &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>会返回 JSON 数据 <code>&#123; &quot;name&quot;: &quot;百万年薪&quot;, &quot;price&quot;: 996 &#125;</code>，状态码默认为 200。我们还可以指定状态码，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复制代码res.status(502).json(&#123; error: &#x27;公司关门了&#x27; &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>会返回 JSON 数据 <code>&#123; &quot;error&quot;: &quot;公司关门了&quot;&#125;</code>，状态码为 502。</p>
+<p>到了动手环节，让我们在 server.js 中添加一个简单的 JSON API 端口 <code>/api</code>，返回关于图雀社区的一些数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">复制代码// ...</span><br><span class="line"></span><br><span class="line">app.get(&#x27;/api&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  res.json(&#123; name: &#x27;图雀社区&#x27;, website: &#x27;https://tuture.co&#x27; &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(&#x27;/broken&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  throw new Error(&#x27;Broken!&#x27;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// ...</span><br></pre></td></tr></table></figure>
+
+<p>我们可以用浏览器访问 <a href="https://link.juejin.cn/?target=http://localhost:3000/api">localhost:3000&#x2F;api</a> 端口，看到返回了想要的数据：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/18/16f17df2169ff130~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" alt="img"/></div><div class="image-meta"><span class="image-caption center">img</span></div></div>
+
+
+
+<p>或者你可以用 <a href="https://link.juejin.cn/?target=https://www.cnblogs.com/fnng/p/9136434.html">Postman</a> 或 <a href="https://link.juejin.cn/?target=https://man.linuxde.net/curl">Curl</a> 访问，也能看到想要的数据哦。</p>
+<h2 id="使用子路由拆分逻辑"><a href="#使用子路由拆分逻辑" class="headerlink" title="使用子路由拆分逻辑"></a>使用子路由拆分逻辑</h2><p>当我们的网站规模越来越大时，把所有代码都放在 server.js 中可不是一个好主意。“拆分逻辑”（或者说“模块化”）是最常见的做法，而在 Express 中，我们可以通过子路由 <code>Router</code> 来实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">复制代码const express = require(&#x27;express&#x27;);</span><br><span class="line">const router = express.Router();</span><br></pre></td></tr></table></figure>
+
+<p><code>express.Router</code> 可以理解为一个迷你版的 <code>app</code> 对象，但是它功能完备，同样支持注册中间件和路由：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">复制代码// 注册一个中间件</span><br><span class="line">router.use(someMiddleware);</span><br><span class="line"></span><br><span class="line">// 添加路由</span><br><span class="line">router.get(&#x27;/hello&#x27;, helloHandler);</span><br><span class="line">router.post(&#x27;/world&#x27;, worldHandler);</span><br></pre></td></tr></table></figure>
+
+<p>最后，由于 Express 中“万物皆中间件”的思想，一个 <code>Router</code> 也作为中间件加入到 <code>app</code> 中:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复制代码app.use(&#x27;/say&#x27;, router);</span><br></pre></td></tr></table></figure>
+
+<p>这样 <code>router</code> 下的全部路由都会加到 <code>/say</code> 之下，即相当于：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">复制代码app.get(&#x27;/say/hello&#x27;, helloHandler);</span><br><span class="line">app.post(&#x27;/say/world&#x27;, worldHandler);</span><br></pre></td></tr></table></figure>
+
+<h3 id="正式实现-1"><a href="#正式实现-1" class="headerlink" title="正式实现"></a>正式实现</h3><p>到了动手环节，首先创建 routes 目录，用于存放所有的子路由。创建 routes&#x2F;index.js 文件，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">复制代码const express = require(&#x27;express&#x27;);</span><br><span class="line">const router = express.Router();</span><br><span class="line"></span><br><span class="line">router.get(&#x27;/&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  res.render(&#x27;index&#x27;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">router.get(&#x27;/contact&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  res.render(&#x27;contact&#x27;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">module.exports = router;</span><br></pre></td></tr></table></figure>
+
+<p>创建 routes&#x2F;api.js，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">复制代码const express = require(&#x27;express&#x27;);</span><br><span class="line">const router = express.Router();</span><br><span class="line"></span><br><span class="line">router.get(&#x27;/&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  res.json(&#123; name: &#x27;图雀社区&#x27;, website: &#x27;https://tuture.co&#x27; &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">router.post(&#x27;/new&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  res.status(201).json(&#123; msg: &#x27;新的篇章，即将开始&#x27; &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">module.exports = router;</span><br></pre></td></tr></table></figure>
+
+<p>最后我们把 server.js 中老的路由定义全部删掉，替换成刚刚实现的两个 <code>Router</code>，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">复制代码const express = require(&#x27;express&#x27;);</span><br><span class="line">const path = require(&#x27;path&#x27;);</span><br><span class="line"></span><br><span class="line">const indexRouter = require(&#x27;./routes/index&#x27;);</span><br><span class="line">const apiRouter = require(&#x27;./routes/api&#x27;);</span><br><span class="line"></span><br><span class="line">const hostname = &#x27;localhost&#x27;;</span><br><span class="line">const port = 3000;</span><br><span class="line"></span><br><span class="line">const app = express();</span><br><span class="line"></span><br><span class="line">// ...</span><br><span class="line">app.use(express.static(&#x27;public&#x27;));</span><br><span class="line"></span><br><span class="line">app.use(&#x27;/&#x27;, indexRouter);</span><br><span class="line">app.use(&#x27;/api&#x27;, apiRouter);</span><br><span class="line"></span><br><span class="line">app.use(&#x27;*&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  res.status(404).render(&#x27;404&#x27;, &#123; url: req.originalUrl &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// ...</span><br></pre></td></tr></table></figure>
+
+<p>是不是瞬间清爽了很多呢！如果你服务器还开着，可以测试一下之前的路由是否还能成功运行哦。这里我贴一下用 Curl 测试 <code>/api</code> 路由的结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">复制代码$ curl localhost:3000/api</span><br><span class="line">&#123;&quot;name&quot;:&quot;图雀社区&quot;,&quot;website&quot;:&quot;https://tuture.co&quot;&#125;</span><br><span class="line">$ curl -X POST localhost:3000/api/new</span><br><span class="line">&#123;&quot;msg&quot;:&quot;新的篇章，即将开始&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/08/26/Promise%20%E7%9A%84%E4%BD%BF%E7%94%A8/">Promise的使用</a></div></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@anonymity</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
