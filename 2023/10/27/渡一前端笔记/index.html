@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>渡一前端笔记 - Abigail</title>
+
+  
+    <meta name="description" content="渡一前端笔记事件循环浏览器进程模型何为进程？程序运行需要有它自己专属的内存空间，可以把这块内存空间简单的理解为进程 每个应用至少有一个进程，进程之间相互独立，即时要通信，也要双方同意 何为线程？有了进程之后，就可以运行程序代码了 运行代码的【人】，称之为【线程】 一个进程至少有一个线程，所以经常在开启后会自动创建一个线程来运行代码，该线程称之为主线程 如果程序需要同时执行多块代码，主线程就会启动更">
+<meta property="og:type" content="article">
+<meta property="og:title" content="渡一前端笔记">
+<meta property="og:url" content="https://bigbanana9527.github.io/2023/10/27/%E6%B8%A1%E4%B8%80%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Abigail">
+<meta property="og:description" content="渡一前端笔记事件循环浏览器进程模型何为进程？程序运行需要有它自己专属的内存空间，可以把这块内存空间简单的理解为进程 每个应用至少有一个进程，进程之间相互独立，即时要通信，也要双方同意 何为线程？有了进程之后，就可以运行程序代码了 运行代码的【人】，称之为【线程】 一个进程至少有一个线程，所以经常在开启后会自动创建一个线程来运行代码，该线程称之为主线程 如果程序需要同时执行多块代码，主线程就会启动更">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/1.png">
+<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/2.png">
+<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/3.png">
+<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/4.png">
+<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/5.png">
+<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/6.png">
+<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/7.png">
+<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/8.png">
+<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/9.png">
+<meta property="og:image" content="c:\Users\16133\Downloads\10.png">
+<meta property="article:published_time" content="2023-10-27T00:56:39.000Z">
+<meta property="article:modified_time" content="2023-10-27T01:00:10.609Z">
+<meta property="article:author" content="Abigail">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/1.png">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/assets/avatar.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Abigail</div><div class="sub normal cap">The Meaning of life is</div><div class="sub hover cap" style="opacity:0"> Meaningless</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki">专栏</a><a class="nav-item" href="/about">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">渡一前端笔记</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="toc-text">事件循环</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="toc-text">浏览器进程模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%95%E4%B8%BA%E8%BF%9B%E7%A8%8B%EF%BC%9F"><span class="toc-text">何为进程？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%95%E4%B8%BA%E7%BA%BF%E7%A8%8B%EF%BC%9F"><span class="toc-text">何为线程？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9C%89%E5%93%AA%E4%BA%9B%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%EF%BC%9F"><span class="toc-text">浏览器有哪些进程和线程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E4%B8%BB%E7%BA%BF%E7%A8%8B%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84%EF%BC%9F"><span class="toc-text">渲染主线程是如何工作的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8B%A5%E5%B9%B2%E8%A7%A3%E9%87%8A"><span class="toc-text">若干解释</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%95%E4%B8%BA%E5%BC%82%E6%AD%A5%EF%BC%9F"><span class="toc-text">何为异步？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#js%E4%B8%BA%E4%BD%95%E4%BC%9A%E9%98%BB%E7%A2%8D%E6%B8%B2%E6%9F%93%EF%BC%9F"><span class="toc-text">js为何会阻碍渲染？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E6%9C%89%E4%BC%98%E5%85%88%E7%BA%A7%E5%90%97%EF%BC%9F"><span class="toc-text">任务有优先级吗？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E5%8E%9F%E7%90%86"><span class="toc-text">浏览器渲染原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E6%98%AF%E5%A6%82%E4%BD%95%E6%B8%B2%E6%9F%93%E9%A1%B5%E9%9D%A2%E7%9A%84%EF%BC%9F"><span class="toc-text">浏览器是如何渲染页面的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-reflow%EF%BC%9F"><span class="toc-text">什么是 reflow？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFrepaint"><span class="toc-text">什么是repaint?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88transform%E7%9A%84%E6%95%88%E7%8E%87%E9%AB%98%EF%BC%9F"><span class="toc-text">为什么transform的效率高？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue%E5%B8%B8%E8%A7%81%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5"><span class="toc-text">vue常见优化手段</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8key"><span class="toc-text">使用key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%86%BB%E7%BB%93%E5%AF%B9%E8%B1%A1"><span class="toc-text">使用冻结对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BB%84%E4%BB%B6"><span class="toc-text">使用函数式组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7"><span class="toc-text">使用计算属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E5%AE%9E%E6%97%B6%E7%BB%91%E5%AE%9A%E7%9A%84%E8%A1%A8%E5%8D%95%E9%A1%B9"><span class="toc-text">非实时绑定的表单项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E6%8C%81%E5%AF%B9%E8%B1%A1%E5%BC%95%E7%94%A8%E7%A8%B3%E5%AE%9A"><span class="toc-text">保持对象引用稳定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8v-show%E6%9B%BF%E4%BB%A3v-if"><span class="toc-text">使用v-show替代v-if</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%BB%B6%E8%BF%9F%E8%A3%85%E8%BD%BD-defer"><span class="toc-text">使用延迟装载(defer)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-keep-alive"><span class="toc-text">使用 keep-alive</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%BF%E5%88%97%E8%A1%A8%E4%BC%98%E5%8C%96"><span class="toc-text">长列表优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%8C%85%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96"><span class="toc-text">打包体积优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82%E6%A8%A1%E5%9E%8B%E5%92%8C%E5%BA%94%E7%94%A8%E5%8D%8F%E8%AE%AE"><span class="toc-text">网络分层模型和应用协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="toc-text">分层模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%94%E5%B1%82%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B"><span class="toc-text">五层网络模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BC%A0%E8%BE%93"><span class="toc-text">数据的传输</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE"><span class="toc-text">应用层协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#URL"><span class="toc-text">URL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP"><span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%A0%E9%80%92%E6%B6%88%E6%81%AF%E7%9A%84%E6%A8%A1%E5%BC%8F"><span class="toc-text">传递消息的模式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%A0%E9%80%92%E6%B6%88%E6%81%AF%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="toc-text">传递消息的格式</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XHR%E5%92%8CFetch"><span class="toc-text">XHR和Fetch</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AJAX"><span class="toc-text">AJAX</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">跨域问题及解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E5%8F%8A%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-text">同源策略及跨域问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%8C%E6%BA%90%E5%92%8C%E5%BC%82%E6%BA%90"><span class="toc-text">同源和异源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%A8%E5%9F%9F%E5%87%BA%E7%8E%B0%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-text">跨域出现的场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E8%B7%A8%E5%9F%9F"><span class="toc-text">网络中的跨域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E5%BC%82%E6%BA%90%E8%AF%B7%E6%B1%82%EF%BC%9F"><span class="toc-text">浏览器如何限制异源请求？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CORS"><span class="toc-text">CORS</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%88%86%E7%B1%BB"><span class="toc-text">请求分类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E7%AE%80%E5%8D%95%E8%AF%B7%E6%B1%82%E7%9A%84%E9%AA%8C%E8%AF%81"><span class="toc-text">对简单请求的验证</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E9%A2%84%E6%A3%80%E8%AF%B7%E6%B1%82%E7%9A%84%E9%AA%8C%E8%AF%81"><span class="toc-text">对预检请求的验证</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%86%E8%8A%821-%E5%85%B3%E4%BA%8Ecookie"><span class="toc-text">细节1-关于cookie</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%86%E8%8A%822-%E5%85%B3%E4%BA%8E%E8%B7%A8%E5%9F%9F%E8%8E%B7%E5%8F%96%E5%93%8D%E5%BA%94%E5%A4%B4"><span class="toc-text">细节2-关于跨域获取响应头</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JSONP"><span class="toc-text">JSONP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%90%86"><span class="toc-text">代理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%EF%BC%9F"><span class="toc-text">如何选择？</span></a></li></ol></li></ol></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-10-27T00:56:39.000Z">2023-10-27</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>渡一前端笔记</span></h1>
+<h1 id="渡一前端笔记"><a href="#渡一前端笔记" class="headerlink" title="渡一前端笔记"></a>渡一前端笔记</h1><h2 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h2><h3 id="浏览器进程模型"><a href="#浏览器进程模型" class="headerlink" title="浏览器进程模型"></a>浏览器进程模型</h3><h4 id="何为进程？"><a href="#何为进程？" class="headerlink" title="何为进程？"></a>何为进程？</h4><p>程序运行需要有它自己专属的内存空间，可以把这块内存空间简单的理解为进程</p>
+<p>每个应用至少有一个进程，进程之间相互独立，即时要通信，也要双方同意</p>
+<h4 id="何为线程？"><a href="#何为线程？" class="headerlink" title="何为线程？"></a>何为线程？</h4><p>有了进程之后，就可以运行程序代码了</p>
+<p>运行代码的【人】，称之为【线程】</p>
+<p>一个进程至少有一个线程，所以经常在开启后会自动创建一个线程来运行代码，该线程称之为主线程</p>
+<p>如果程序需要同时执行多块代码，主线程就会启动更多的线程来执行代码，所以一个进程中可以包含多个线程</p>
+<h3 id="浏览器有哪些进程和线程？"><a href="#浏览器有哪些进程和线程？" class="headerlink" title="浏览器有哪些进程和线程？"></a>浏览器有哪些进程和线程？</h3><p>浏览器是一个多进程多线程的应用程序</p>
+<p>浏览器内部工作极其复杂</p>
+<p>为了避免相互影响，为了减少连环崩溃的几率，当启动浏览器后，它会自动启动多个进程</p>
+<p>其中，最主要的进程有：</p>
+<ol>
+<li><p><strong>浏览器进程</strong></p>
+<p>主要负责界面显示、用户交互、子进程管理等。浏览器进程内部会启动多个线程来处理不同的任务</p>
+</li>
+<li><p><strong>网络进程</strong></p>
+<p>负责加载网络资源。网络进程内部会启动多个线程来处理不同的任务</p>
+</li>
+<li><p><strong>渲染进程</strong></p>
+<p>渲染进程启动后，会开启一个<strong>渲染主线程</strong>，主线程负责执行html、css、js代码</p>
+<p>默认情况下，浏览器会为每个开启的标签页开启一个新的渲染进程，以保证不同标签页之间互不影响（以后可能会改变）</p>
+</li>
+</ol>
+<h3 id="渲染主线程是如何工作的？"><a href="#渲染主线程是如何工作的？" class="headerlink" title="渲染主线程是如何工作的？"></a>渲染主线程是如何工作的？</h3><p>渲染主线程是浏览器中最繁忙的线程，需要它处理的任务包括但不限于：</p>
+<ul>
+<li>解析html</li>
+<li>解析css</li>
+<li>计算样式</li>
+<li>布局</li>
+<li>处理图层</li>
+<li>每秒把页面画60次</li>
+<li>执行js</li>
+<li>……</li>
+</ul>
+<p>要处理这么多的任务，主线程遇到了一个前所未有的难题：如何调度任务？</p>
+<p>答案是   <strong>排队</strong></p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/1.png" alt="1"/></div><div class="image-meta"><span class="image-caption center">1</span></div></div>
+
+<ol>
+<li>在最开始的时候，渲染主线程会进入一个无限循环</li>
+<li>每一次循环会检查消息队列中是否有任务存在。如果有，就取出第一个任务执行，执行完一个后进入下一次循环；如果没有，则进入休眠状态。</li>
+<li>其他所有线程（包括其他进程的线程）可以随时向消息队列添加任务。新任务会加到消息队列的未尾。在添加新任务时，如果主线程是休眠状态，则会将其唤醒以继续循环拿取任务</li>
+</ol>
+<p>这样一来，就可以让每个任务有条不紊的、持续的进行下去了。整个过程，被称之为<strong>事件循环（消息循环）</strong></p>
+<h3 id="若干解释"><a href="#若干解释" class="headerlink" title="若干解释"></a>若干解释</h3><h4 id="何为异步？"><a href="#何为异步？" class="headerlink" title="何为异步？"></a>何为异步？</h4><p>代码在执行过程中，会遇到一些无法立即处理的任务，比如：</p>
+<ul>
+<li>计时完成后需要执行的任务  –setTimeout setInterval</li>
+<li>网络通信完成后需要执行的任务–XHR、Fetch</li>
+<li>用户操作后需要执行的任务–addEventListener</li>
+</ul>
+<p>如果让渲染主线程等待这些任务的时机达到，就会导致主线程长期处于「阻塞」的状态，从而导致浏览<br>器「卡死」，如下图</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/2.png" alt="2"/></div><div class="image-meta"><span class="image-caption center">2</span></div></div>
+
+<p><strong>渲染主线程承担着极其重要的工作，无论如何都不能阻塞！</strong></p>
+<p>因此浏览器选择异步来解决这个问题</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/3.png" alt="3"/></div><div class="image-meta"><span class="image-caption center">3</span></div></div>
+
+<p><strong>使用异步方式，渲染主线程永不阻塞</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">面试题：如何理解JS的异步？</span><br><span class="line">//</span><br><span class="line">JS是一门单线程的语言，这是因为它运行在浏览器的渲染主线程中，而渲染主线程只有一个。而渲染主线程承担着诸多的工作，渲染页面、执行JS都在其中运行。如果使用同步的方式，就极有可能导致主线程产生阻塞，从而导致消息队列中的很多其他任务无法得到执行。这样一来，一方面会导致繁忙的主线程白白的消耗时间，另一方面导致页面无法及时更新，给用户造成卡死现象。</span><br><span class="line"></span><br><span class="line">所以浏览器采用异步的方式来避免。具体做法是当某些任务发生时，如计时器、网络、事件监听，主线程将任务交给其他线程去处理，自身立即结束任务的执行，转而执行后续代码。当其他线程完成时，将事先传递的回调函数包装成任务，加入到消息队列的未尾排队，等待主线程调度执行在这种异步模式下，浏览器永不阻塞，从而最大限度的保证了单线程的流畅运行。</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="js为何会阻碍渲染？"><a href="#js为何会阻碍渲染？" class="headerlink" title="js为何会阻碍渲染？"></a>js为何会阻碍渲染？</h4><p>js执行过程中，渲染主线程会处理该js，这时触发了其他事件时，会在消息队列中等待。。。</p>
+<h4 id="任务有优先级吗？"><a href="#任务有优先级吗？" class="headerlink" title="任务有优先级吗？"></a>任务有优先级吗？</h4><p>任务没有优先级，在消息队列中先进先出</p>
+<p><strong>但消息队列是有优先级的</strong></p>
+<p>根据W3C的最新解释：</p>
+<ul>
+<li>每个任务都有一个任务类型，同一个类型的任务必须在一个队列，不同类型的任务可以分属于不同的队列。</li>
+<li>在一次事件循环中，浏览器可以根据实际情况从不同的队列中取出任务执行。</li>
+<li>浏览器必须准备好一个微队列，微队列中的任务优先所有其他任务执行</li>
+</ul>
+<p>在目前chrome的实现中，至少包含了下面的队列：</p>
+<p>（随着浏览器的复杂度急剧提升，W3C不再使用宏队列的说法）</p>
+<ul>
+<li>延时队列：用于存放计时器到达后的回调任务，优先级「中」</li>
+<li>交互队列：用于存放用户操作后产生的事件处理任务，优先级「高」</li>
+<li>微队列：用户存放需要最快执行的任务，优先级「最高」</li>
+</ul>
+<p>添加任务到微队列的主要方式主要是使用Promise、MutationObserver</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//立即把一个函数加入到微队列</span><br><span class="line">Promise.resolve().then(函数)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">面试题：阐述一下JS的事件循环</span><br><span class="line">//</span><br><span class="line">事件循环又叫做消息循环，是浏览器渲染主线程的工作方式。</span><br><span class="line">在Chrome的源码中，它开启一个不会结束的for循环，每次循环从消息队列中取出第一个任务执行，而其他线程只需要在合适的时候将任务加入到队列末尾即可。过去把消息队列简单分为宏队列和微队列，这种说法目前已无法满足复杂的浏览器环境，取而代之的是一种更加灵活多变的处理方式。</span><br><span class="line">根据W3C官方的解释，每个任务有不同的类型，同类型的任务必须在同一个队列，不同的任务可以属于不同的队列。不同任务队列有不同的优先级，在一次事件循环中，由浏览器自行决定取哪一个队列的任务。但浏览器必须有一个微队列，微队列的任务一定具有最高的优先级，必须优先调度执行。</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">面试题：JS中的计时器能做到精确计时吗？为什么？</span><br><span class="line">//</span><br><span class="line">不行，因为</span><br><span class="line">1.计算机硬件没有原子钟，无法做到精确计时</span><br><span class="line">2.操作系统的计时函数本身就有少量偏差，由于JS的计时器最终调用的是操作系统的函数，也就携带了这些偏差</span><br><span class="line">3.按照W3C的标准，浏览器实现计时器时，如果嵌套层级超过5层，则会带有4毫秒的最少在计时时间少于4毫秒时又带来了偏差</span><br><span class="line">4.受事件循环的影响，计时器的回调函数只能在主线程空闲时运行，因此又带来了偏差</span><br></pre></td></tr></table></figure>
+
+
+
+<p>总结</p>
+<p>————<strong>单线程是异步产生的原因，事件循环是异步的实现方式</strong></p>
+<h2 id="浏览器渲染原理"><a href="#浏览器渲染原理" class="headerlink" title="浏览器渲染原理"></a>浏览器渲染原理</h2><h3 id="浏览器是如何渲染页面的？"><a href="#浏览器是如何渲染页面的？" class="headerlink" title="浏览器是如何渲染页面的？"></a>浏览器是如何渲染页面的？</h3><p>渲染时间点：网络进程拿到html后，会产生一个渲染任务并将其传递给渲染主线程的消息队列中</p>
+<p>在事件循环机制的作用下，渲染主线程取出消息队列中的渲染任务，开始渲染流程</p>
+<hr>
+<p>整个渲染流程分为多个阶段，分别是：HTML解析、样式计算、布局、分层、绘制、分块、光栅化、画<br>每个阶段都有明确的输入输出，上一个阶段的输出会成为下一个阶段的输入。<br>这样，整个渲染流程就形成了一套组织严密的生产流水线。</p>
+<hr>
+<p>渲染的第一步是<strong>解析html</strong></p>
+<p>解析过程中遇到CSS解析CSS,遇到JS执行JS。为了提高解析效率，浏览器在开始解析前，会启动一个预解析的线程，率先下载HTML中的外部CSS文件和外部的JS文件。</p>
+<p>如果主线程解析到link位置，此时外部的CSS文件还没有下载解析好，主线程不会等待，继续解析后续的HTML。这是因为下载和解析CSS的工作是在预解析线程中进行的。这就是CSS不会阻塞HTML解析的根本原因。</p>
+<p>如果主线程解析到script位置，会停止解析HTL,转而等待JS文件下载好，并将全局代码解析执行完成后，才能继续解析HTMLI这是因为JS代码的执行过程可能会修改当前的D0M树，所以D0M树的生成必须暂停。这就是JS会阻塞HTML解析的根本原因。</p>
+<p>第一步完成后，会得到D0M树和CSS0M树，浏览器的默认样式、内部样式、外部样式、行内样式均会包含在CSS0M树中。</p>
+<hr>
+<p>渲染的下一步是<strong>样式计算</strong></p>
+<p>主线程会遍历得到的D0M树，依次为树中的每个节熏计算出它最终的样式，称之为Computed Style。</p>
+<p>在这一过程中，很多预设值会变成绝对值，比如rd会变成rgb(255,0,0)；相对单位会变成绝对单位，比如em会变成px</p>
+<p>这一步完成后，会得到一棵带有样式的D0M树。</p>
+<hr>
+<p>接下来是<strong>布局</strong>，布局完成后会得到布局树。<br>布局阶段会依次遍历D0M树的每一个节点，计算每个节点的几何信息。例如节点的宽高、相对包含块的位置。<br>大部分时候，D0M树和布局树并非一一对应。<br>比如display:none的节点没有几何信息，因此不会生成到布局树；又比如使用了伪元素选择器，虽然D0M树中不存在这些伪元素节点，但它们拥有几何信息，所以会生成到布局树中。还有匿名行盒、匿名块盒等等都会导致D0M树和布局树无法一一对应。</p>
+<hr>
+<p>下一步是<strong>分层</strong><br>主线程会使用一套复杂的策略对整个布局树中进行分层。<br>分层的好处在于，将来某一个层改变后，仅会对该层进行后续处理，从而提升效率。<br>滚动条、堆叠上下文、transform、opacity等样式都会或多或少的影响分层结果，也可以通过 will-change 属性更大程度的影响分层结果。</p>
+<hr>
+<p>再下一步是<strong>绘制</strong><br>主线程会为每个层单独产生绘制指令集，用于描述这一层的内容该如何画出来。<br>完成绘制后，主线程将每个图层的绘制信息提交给合成线程，剩余工作将由合成线程完成。<br>合成线程首先对每个图层进行分块，将其划分为更多的小区域。<br>它会从线程池中拿取多个线程来完成分块工作。</p>
+<hr>
+<p>分块完成后，进入<strong>光栅化</strong>阶段。<br>合成线程会将块信息交给GPU进程，以极高的速度完成光栅化。<br>GPU进程会开启多个线程来完成光栅化，并且优先处理靠近视口区域的块。<br>光栅化的结果，就是一块一块的位图</p>
+<hr>
+<p>最后一个阶段就是<strong>画</strong>了<br>合成线程拿到每个层、每个块的位图后，生成一个个「指引(quad)」信息。<br>指引会标识出每个位图应该画到屏幕的哪个位置，以及会考虑到旋转、缩放等变形。<br>变形发生在合成线程，与渲染主线程无关，这就是transform效率高的本质原因。<br>合成线程会把quad提交给GPU进程，由GPU进程产生系统调用，提交给GPU硬件，完成最终的屏幕成像。</p>
+<h3 id="什么是-reflow？"><a href="#什么是-reflow？" class="headerlink" title="什么是 reflow？"></a>什么是 reflow？</h3><p>reflow的本质就是重新计算layout树<br>当进行了会影响布局树的操作后，需要重新计算布局树，会引发layout<br>为了避免连续的多次操作导致布局树反复计算，浏览器会合并这些操作，当JS代码全部完成后再进行统一计<br>算。所以，改动属性造成的reflow是异步完成的<br>也同样因为如此，当JS获取布局属性时，就可能造成无法获取到最新的布局信息<br>浏览器在反复权衡下，最终决定获取属性立即reflow</p>
+<h3 id="什么是repaint"><a href="#什么是repaint" class="headerlink" title="什么是repaint?"></a>什么是repaint?</h3><p>repaint的本质就是重新根据分层信息计算了绘制指令<br>当改动了可见样式后，就需要重新计算，会引发repaint<br>由于元素的布局信息也属于可见样式，所以reflow一定会引起repaint</p>
+<h3 id="为什么transform的效率高？"><a href="#为什么transform的效率高？" class="headerlink" title="为什么transform的效率高？"></a>为什么transform的效率高？</h3><p>因为transform既不会影响布局也不会影响绘制指令，它影响的只是渲染流程的最后一个「draw」阶段<br>由于draw阶段在合成线程中，所以transform的变化几乎不会影响渲染主线程。反之，渲染主线程无论如何忙碌，也不会影响transform的变化。</p>
+<h2 id="vue常见优化手段"><a href="#vue常见优化手段" class="headerlink" title="vue常见优化手段"></a>vue常见优化手段</h2><h3 id="使用key"><a href="#使用key" class="headerlink" title="使用key"></a>使用key</h3><p>对于通过循环生成的列表，应给每个列表项一个稳定且唯一的key,这有利于在列表变动时，尽量少的删除、新增、改动元素</p>
+<h3 id="使用冻结对象"><a href="#使用冻结对象" class="headerlink" title="使用冻结对象"></a>使用冻结对象</h3><p>冻结的对象不会被响应化</p>
+<h3 id="使用函数式组件"><a href="#使用函数式组件" class="headerlink" title="使用函数式组件"></a>使用函数式组件</h3><p>参见  <a target="_blank" rel="noopener" href="https://cn.vuejs.org/guide/extras/render-function.html#functional-components">渲染函数 &amp; JSX | Vue.js (vuejs.org)</a></p>
+<h3 id="使用计算属性"><a href="#使用计算属性" class="headerlink" title="使用计算属性"></a>使用计算属性</h3><p>如果模板中某个数据会使用多次，并且该数据是通过计算得到的，使用计算属性以缓存它们</p>
+<h3 id="非实时绑定的表单项"><a href="#非实时绑定的表单项" class="headerlink" title="非实时绑定的表单项"></a>非实时绑定的表单项</h3><p>当使用v-model绑定一个表单项时，当用户改变表单项的状态时，也会随之改变数据，从而导致vue发生重渲染(rerender),这会带来一些性能的开销。</p>
+<p>我们可以通过使用lazy或不使用v-modl的方式解决该问题，但要注意，这样可能会导致在某一个时间段内数据和表单项的值是不一致的。</p>
+<h3 id="保持对象引用稳定"><a href="#保持对象引用稳定" class="headerlink" title="保持对象引用稳定"></a>保持对象引用稳定</h3><p>在绝大部分情况下，vue触发rerender的时机是其依赖的数据发生变化<br>若数据没有发生变化，哪怕给数据重新赋值了vue也是不会做出任何处理的<br>下面是vue判断数据没有变化的源码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">hasChanged</span>(<span class="params">x,y</span>)&#123;</span><br><span class="line">	1f(x===y)&#123;</span><br><span class="line">		<span class="keyword">return</span> x===<span class="number">0</span> &amp;&amp; <span class="number">1</span>/x!==<span class="number">1</span>/y</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> x===x||y===y</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+
+<p>因此，如果需要，只要能保证组件的依赖数据不发生变化，组件就不会重新渲染。<br>对于原始数据类型，保持其值不变即可<br>对于对象类型，保持其引用不变即可<br>从另一方面来说，由于可以通过保持属性引用稳定来避免子组件的重渲染，那么我们应该细分组件来尽量避免多余的渲染</p>
+<h3 id="使用v-show替代v-if"><a href="#使用v-show替代v-if" class="headerlink" title="使用v-show替代v-if"></a>使用v-show替代v-if</h3><p>对于频繁切换显示状态的元素，使用v-show可以保证虚拟dom树的稳定，避免频繁的新增和删除元素，特别是对于那些内部包含大量dom元素的节点，这一点极其重要<br>关键字：频繁切换显示状态、内部包含大量dom元素</p>
+<h3 id="使用延迟装载-defer"><a href="#使用延迟装载-defer" class="headerlink" title="使用延迟装载(defer)"></a>使用延迟装载(defer)</h3><p>JS传输完成后，浏览器开始执行JS构造页面。</p>
+<p>但可能一开始要渲染的组件太多，不仅JS执行的时间很长，而且执行完后浏览器要渲染的元素过多，从而导致页面白屏<br>一个可行的办法就是延迟装载组件，让组件按照指定的先后顺序依次一个一个渲染出来</p>
+<h3 id="使用-keep-alive"><a href="#使用-keep-alive" class="headerlink" title="使用 keep-alive"></a>使用 keep-alive</h3><h3 id="长列表优化"><a href="#长列表优化" class="headerlink" title="长列表优化"></a>长列表优化</h3><h3 id="打包体积优化"><a href="#打包体积优化" class="headerlink" title="打包体积优化"></a>打包体积优化</h3><h2 id="网络分层模型和应用协议"><a href="#网络分层模型和应用协议" class="headerlink" title="网络分层模型和应用协议"></a>网络分层模型和应用协议</h2><h3 id="分层模型"><a href="#分层模型" class="headerlink" title="分层模型"></a>分层模型</h3><h4 id="五层网络模型"><a href="#五层网络模型" class="headerlink" title="五层网络模型"></a>五层网络模型</h4><table>
+<thead>
+<tr>
+<th align="left"><strong>跟具体应用相关的消息格式？</strong></th>
+<th><strong>应用层</strong></th>
+<th><strong>HTTP、FTP、DNS、SMTP、POP3</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>如何保证消息的可靠传递？</strong></td>
+<td><strong>传输层</strong></td>
+<td><strong>TCP、UDP</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>如何在互联网中找到对方？</strong></td>
+<td><strong>网络层</strong></td>
+<td><strong>IP  路由器</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>如何在一个子网中找到对方？</strong></td>
+<td><strong>数据链路层</strong></td>
+<td><strong>MAC  交换机</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>上面给我的东西如何用信号表示？</strong></td>
+<td><strong>物理层</strong></td>
+<td><strong>能纤双绞线  同轴电缆  集线器</strong></td>
+</tr>
+</tbody></table>
+<h4 id="数据的传输"><a href="#数据的传输" class="headerlink" title="数据的传输"></a>数据的传输</h4><p>从应用层逐级封装到物理层，接收方接受到后从物理层逐级解封装到应用层</p>
+<h3 id="应用层协议"><a href="#应用层协议" class="headerlink" title="应用层协议"></a>应用层协议</h3><h4 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h4><p>URL(uniform resource locator,统一资源定位符)用于定位网络服务,例如：<a target="_blank" rel="noopener" href="http://a.com/news/detail?id=1#t1">http://a.com:80/news/detail?id=1#t1</a></p>
+<p>它表达了：从网络中哪台计算机(domain)中的哪个程序(port)寻找哪个服务(path),并注明了获取服务的具体细节(path),以及要用什么样的协议通信(schema)</p>
+<p>这里面包含了一些细节：</p>
+<ul>
+<li>当协议是http端口为80时，端口可以省略</li>
+<li>当协议是https端口为443时，端口可以省略</li>
+<li>schema、domain、path是必填的</li>
+</ul>
+<h4 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h4><p>超文本传输协议(Hyper Text Transfer Protocol,HTTP)是一个广泛运用于互联网的应用层协议。</p>
+<p>99%的情况下，前端开发者接触的都是HTTP协议<br>该协议规定了两个方面的内容：</p>
+<ul>
+<li>传递消息的模式</li>
+<li>传递消息的格式</li>
+</ul>
+<h5 id="传递消息的模式"><a href="#传递消息的模式" class="headerlink" title="传递消息的模式"></a>传递消息的模式</h5><p>HTTP使用了一种极为简单的消息传递模式，「请求响应」模式<br>发起请求的称之为客户端，接收请求并完成响应的称之为服务器。</p>
+<p>「请求响应」完成后，一次交互结束。</p>
+<h5 id="传递消息的格式"><a href="#传递消息的格式" class="headerlink" title="传递消息的格式"></a>传递消息的格式</h5><p>HTTP的消息格式是一种纯文本的格式，文本分为三部分</p>
+<ol>
+<li>请求行</li>
+<li>请求头</li>
+<li></li>
+<li>请求体</li>
+</ol>
+<p>……</p>
+<h2 id="XHR和Fetch"><a href="#XHR和Fetch" class="headerlink" title="XHR和Fetch"></a>XHR和Fetch</h2><h3 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h3><p>AJAX就是指在web应用程序中异步向服务器发送请求。<br>它的实现方式有两种，XMLHttpRequest 简称XHR 和 Fetch</p>
+<p>以下是两者的对比</p>
+<table>
+<thead>
+<tr>
+<th>功能点</th>
+<th>XHR</th>
+<th>Fetch</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>基本请求能力</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>基本的获取相应能力</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>监控请求进度</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>监控相应进度</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Service Worker中是否可用</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>控制cookie的携带</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>控制重定向</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>请求取消</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>自定义referrer</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>流</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>API风格</td>
+<td>Event</td>
+<td>Promise</td>
+</tr>
+<tr>
+<td>活跃度</td>
+<td>停止更新</td>
+<td>不断更新</td>
+</tr>
+</tbody></table>
+<h2 id="跨域问题及解决方案"><a href="#跨域问题及解决方案" class="headerlink" title="跨域问题及解决方案"></a>跨域问题及解决方案</h2><h3 id="同源策略及跨域问题"><a href="#同源策略及跨域问题" class="headerlink" title="同源策略及跨域问题"></a>同源策略及跨域问题</h3><p>同源策略是一套浏览器安全机制，当一个源的文档和脚本，与另一个源的资源进行通信时<br>司源策略就会对这个通信做出不同程度的限制。</p>
+<p>简单来说，同源策略对同源资源放行，对异源资源限制<br>因此限制造成的开发问题，称之为跨域（异源）问题</p>
+<h4 id="同源和异源"><a href="#同源和异源" class="headerlink" title="同源和异源"></a>同源和异源</h4><p>源(origin)&#x3D;协议+域名+端口</p>
+<h4 id="跨域出现的场景"><a href="#跨域出现的场景" class="headerlink" title="跨域出现的场景"></a>跨域出现的场景</h4><ul>
+<li><p>网络通信：a元素的跳转；加载css、js、图片等；AJAX等等</p>
+</li>
+<li><p>js API：window.open、window.parent、iframe、contentwindow等等</p>
+</li>
+<li><p>存储：WebStorage、IndexedDB等等</p>
+</li>
+</ul>
+<p>对于不同的跨域场景，以及每个场景中不同的跨域方式，同源策略都有<br>不同的限制。<br>本文重点讨论网络通信中A]AX的跨域问题</p>
+<h4 id="网络中的跨域"><a href="#网络中的跨域" class="headerlink" title="网络中的跨域"></a>网络中的跨域</h4><p>当浏览器运行页面后，会发出很多的网络请求，例如CSS、S、图片、<br>AJAX等等<br>请求页面的源称之为页面源，在该页面中发出的请求称之为目标源。<br>当页面源和目标源一致时，则为同源请求，否则为异源请求（跨域请求)</p>
+<h4 id="浏览器如何限制异源请求？"><a href="#浏览器如何限制异源请求？" class="headerlink" title="浏览器如何限制异源请求？"></a>浏览器如何限制异源请求？</h4><p> 浏览器出于多方面的考量，制定了非常繁杂的规则来限制各种跨域请求，但总体的原则非常简单：</p>
+<ul>
+<li>对标签发出的跨域请求轻微限制</li>
+<li>对AJAX发出的跨域请求严厉限制</li>
+</ul>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/4.png" alt="4"/></div><div class="image-meta"><span class="image-caption center">4</span></div></div>
+
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><h4 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h4><p>上图中的 校验可以是cors规则</p>
+<p>CORS的基本理念是：</p>
+<ul>
+<li>只要服务器明确表示允许，则校验通过</li>
+<li>服务器明确拒绝或没有表示，则校验不通过<br>所以，使用CORS解决跨域，必须要保证服务器是「自己人」</li>
+</ul>
+<h5 id="请求分类"><a href="#请求分类" class="headerlink" title="请求分类"></a>请求分类</h5><p>CORS将请求分为两类：简单请求和预检请求。<br>对不同种类的请求它的规则有所区别。<br>所以要理解CORS,首先要理解它是如何划分请求的。</p>
+<h6 id="简单请求"><a href="#简单请求" class="headerlink" title="简单请求"></a>简单请求</h6><p>简单来说，只要全部满足下列条件，就是简单请求：</p>
+<ul>
+<li><p>请求方法是GET、POST、HEAD之一</p>
+</li>
+<li><p>头部字段满足CORS安全规范，洋见W3C</p>
+</li>
+<li><p>如果有Content-Type,必须是下列值中的一个</p>
+<p>text&#x2F;plain<br>multipart&#x2F;form-data<br>application&#x2F;x-www-form-urlencoded</p>
+</li>
+</ul>
+<h6 id="预检请求-preflight"><a href="#预检请求-preflight" class="headerlink" title="预检请求(preflight)"></a>预检请求(preflight)</h6><p>简单请求之外的所以请求</p>
+<h5 id="对简单请求的验证"><a href="#对简单请求的验证" class="headerlink" title="对简单请求的验证"></a>对简单请求的验证</h5><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/5.png" alt="5"/></div><div class="image-meta"><span class="image-caption center">5</span></div></div>
+
+<p>服务器会在响应头中添加</p>
+<p>Access-Control-Allow-origin:<a target="_blank" rel="noopener" href="http://my.com/">http://my.com</a>  或 Access-Control-Allow-0rigin:*</p>
+<p>其中<a target="_blank" rel="noopener" href="http://my.com/">http://my.com</a> 是客户端的源地址</p>
+<h5 id="对预检请求的验证"><a href="#对预检请求的验证" class="headerlink" title="对预检请求的验证"></a>对预检请求的验证</h5><p>1.发送预检请求：首先浏览器会拦截真实的请求，自己发送一个options的请求，得到服务器的通过相应后，执行第二步</p>
+<h6 id=""><a href="#" class="headerlink" title=""></a><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/6.png" alt="6"/></div><div class="image-meta"><span class="image-caption center">6</span></div></div></h6><p>2.发送真实请求（和简单请求一致）</p>
+<h5 id="细节1-关于cookie"><a href="#细节1-关于cookie" class="headerlink" title="细节1-关于cookie"></a>细节1-关于cookie</h5><p>默认情况下，ajax的跨域请求并不会附带cookie,这样一来，某些需要权限的操<br>作就无法进行</p>
+<p>不过可以通过简单的配置就可以实现附带cookie</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//xhr</span></span><br><span class="line"><span class="keyword">var</span> xhr <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">xhr.<span class="property">withCredentials</span>=<span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//fetch api</span></span><br><span class="line"><span class="title function_">fetch</span>(url,&#123;</span><br><span class="line"><span class="attr">credentials</span>:<span class="string">&quot;include&quot;</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>当一个请求需要附带cookie时，无论它是简单请求，还是预检请求，都会在请求<br>头中添加cookie字段<br>而服务器响应时，需要明确告知客户端：服务器允许这样的凭据<br>告知的方式也非常的简单，只需要在响应头中添加Access-Control-Allow-Credentials:true<br>对于一个附带身份凭证的请求，若服务器没有明确告知，浏览器仍然视为跨域<br>被拒绝。<br>另外要特别注意的是：对于附带身份凭证的请求，服务器不得设置Access-<br>Control-Allow-Origin的值为 * ,这就是为什么不推荐使用 * 的原因</p>
+<h5 id="细节2-关于跨域获取响应头"><a href="#细节2-关于跨域获取响应头" class="headerlink" title="细节2-关于跨域获取响应头"></a>细节2-关于跨域获取响应头</h5><p>在跨域访问时，JS只能拿到一些最基本的响应头，如：Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma,如果要访问其他头，则需要服务器设置本响应头。</p>
+<p>Access-Control-Expose-Headers头让服务器把允许浏览器访问的头放入白名单，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Expose-Headers:authorization,a,b</span><br></pre></td></tr></table></figure>
+
+<p>这样JS就能够访问指定的响应头了。</p>
+<h4 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h4><p>出现CORS方案出来之前</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/7.png" alt="7"/></div><div class="image-meta"><span class="image-caption center">7</span></div></div>
+
+<p>上图的规则针对的是ajax，要绕过此，就不使用ajax获取数据</p>
+<p>josnp解决跨域需要与后端规定好返回的数据格式为一个函数，客户端使用script标签获取数据后，使用callback得到返回的数据</p>
+<p>这种方法虽然可以解决问题，但JSONP有着明显的缺陷：</p>
+<ul>
+<li><p>仅能使用GET请求</p>
+</li>
+<li><p>容易产生安全隐患</p>
+<p>恶意攻击者可能利用calLback&#x3D;{恶意函数}的方式实现XSS攻击</p>
+</li>
+<li><p>容易被非法站点恶意调用</p>
+</li>
+</ul>
+<p>因此，除非是某些特殊的原因，否则永远不应该使用]SONP</p>
+<h4 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h4><p>CORS和JSONP均要求服务器是「自己人」</p>
+<p>那如果不是呢？</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/8.png" alt="8"/></div><div class="image-meta"><span class="image-caption center">8</span></div></div>
+
+<p>代理方法的解决思路如下</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/9.png" alt="9"/></div><div class="image-meta"><span class="image-caption center">9</span></div></div>
+
+<h4 id="如何选择？"><a href="#如何选择？" class="headerlink" title="如何选择？"></a>如何选择？</h4><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="C:\Users\16133\Downloads\10.png" alt="10"/></div><div class="image-meta"><span class="image-caption center">10</span></div></div>
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/09/06/Express%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91/">Express 框架开发</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="accopy/hexoComment" data-repo-id="R_kgDOKQkO2A" data-category="General" data-category-id="DIC_kwDOKQkO2M4CZJZy" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@anonymity</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
