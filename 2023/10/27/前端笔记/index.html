@@ -20,31 +20,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>前端笔记 - Abigail</title>
+  <title>前端笔记 - locus</title>
 
   
     <meta name="description" content="事件循环浏览器进程模型何为进程？程序运行需要有它自己专属的内存空间，可以把这块内存空间简单的理解为进程 每个应用至少有一个进程，进程之间相互独立，即时要通信，也要双方同意 何为线程？有了进程之后，就可以运行程序代码了 运行代码的【人】，称之为【线程】 一个进程至少有一个线程，所以经常在开启后会自动创建一个线程来运行代码，该线程称之为主线程 如果程序需要同时执行多块代码，主线程就会启动更多的线程来执">
 <meta property="og:type" content="article">
 <meta property="og:title" content="前端笔记">
-<meta property="og:url" content="https://bigbanana9527.github.io/2023/10/27/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/index.html">
-<meta property="og:site_name" content="Abigail">
+<meta property="og:url" content="https://accopy.github.io/2023/10/27/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="locus">
 <meta property="og:description" content="事件循环浏览器进程模型何为进程？程序运行需要有它自己专属的内存空间，可以把这块内存空间简单的理解为进程 每个应用至少有一个进程，进程之间相互独立，即时要通信，也要双方同意 何为线程？有了进程之后，就可以运行程序代码了 运行代码的【人】，称之为【线程】 一个进程至少有一个线程，所以经常在开启后会自动创建一个线程来运行代码，该线程称之为主线程 如果程序需要同时执行多块代码，主线程就会启动更多的线程来执">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/1.png">
-<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/2.png">
-<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/3.png">
-<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/4.png">
-<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/5.png">
-<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/6.png">
-<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/7.png">
-<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/8.png">
-<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/9.png">
-<meta property="og:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/10.png">
+<meta property="og:image" content="https://accopy.github.io/assets/images/1.png">
+<meta property="og:image" content="https://accopy.github.io/assets/images/2.png">
+<meta property="og:image" content="https://accopy.github.io/assets/images/3.png">
+<meta property="og:image" content="https://accopy.github.io/assets/images/4.png">
+<meta property="og:image" content="https://accopy.github.io/assets/images/5.png">
+<meta property="og:image" content="https://accopy.github.io/assets/images/6.png">
+<meta property="og:image" content="https://accopy.github.io/assets/images/7.png">
+<meta property="og:image" content="https://accopy.github.io/assets/images/8.png">
+<meta property="og:image" content="https://accopy.github.io/assets/images/9.png">
+<meta property="og:image" content="https://accopy.github.io/assets/images/10.png">
 <meta property="article:published_time" content="2023-10-27T00:56:39.000Z">
-<meta property="article:modified_time" content="2023-11-22T05:02:14.134Z">
-<meta property="article:author" content="Abigail">
+<meta property="article:modified_time" content="2023-11-22T05:11:20.962Z">
+<meta property="article:author" content="locus">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://bigbanana9527.github.io/2023/10/27/assets/images/1.png">
+<meta name="twitter:image" content="https://accopy.github.io/assets/images/1.png">
   
   
   
@@ -81,7 +81,7 @@
 
   
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/assets/avatar.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Abigail</div><div class="sub normal cap">The Meaning of life is</div><div class="sub hover cap" style="opacity:0"> Meaningless</div></a></div>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/assets/avatar.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">locus</div><div class="sub normal cap">The Meaning of life is</div><div class="sub hover cap" style="opacity:0"> Meaningless</div></a></div>
 
 <nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki">专栏</a><a class="nav-item" href="/about">关于</a></nav>
 </header>
@@ -146,7 +146,7 @@
 </ul>
 <p>要处理这么多的任务，主线程遇到了一个前所未有的难题：如何调度任务？</p>
 <p>答案是   <strong>排队</strong></p>
-<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/1.png">
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/images/1.png">
 
 <ol>
 <li>在最开始的时候，渲染主线程会进入一个无限循环</li>
@@ -161,11 +161,11 @@
 <li>用户操作后需要执行的任务–addEventListener</li>
 </ul>
 <p>如果让渲染主线程等待这些任务的时机达到，就会导致主线程长期处于「阻塞」的状态，从而导致浏览<br>器「卡死」，如下图</p>
-<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/2.png">
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/images/2.png">
 
 <p><strong>渲染主线程承担着极其重要的工作，无论如何都不能阻塞！</strong></p>
 <p>因此浏览器选择异步来解决这个问题</p>
-<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/3.png">
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/images/3.png">
 
 <p><strong>使用异步方式，渲染主线程永不阻塞</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">面试题：如何理解JS的异步？</span><br><span class="line">//</span><br><span class="line">JS是一门单线程的语言，这是因为它运行在浏览器的渲染主线程中，而渲染主线程只有一个。而渲染主线程承担着诸多的工作，渲染页面、执行JS都在其中运行。如果使用同步的方式，就极有可能导致主线程产生阻塞，从而导致消息队列中的很多其他任务无法得到执行。这样一来，一方面会导致繁忙的主线程白白的消耗时间，另一方面导致页面无法及时更新，给用户造成卡死现象。</span><br><span class="line"></span><br><span class="line">所以浏览器采用异步的方式来避免。具体做法是当某些任务发生时，如计时器、网络、事件监听，主线程将任务交给其他线程去处理，自身立即结束任务的执行，转而执行后续代码。当其他线程完成时，将事先传递的回调函数包装成任务，加入到消息队列的未尾排队，等待主线程调度执行在这种异步模式下，浏览器永不阻塞，从而最大限度的保证了单线程的流畅运行。</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -387,7 +387,7 @@
 <li>对标签发出的跨域请求轻微限制</li>
 <li>对AJAX发出的跨域请求严厉限制</li>
 </ul>
-<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/4.png">
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/images/4.png">
 
 <h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><h4 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h4><p>上图中的 校验可以是cors规则</p>
 <p>CORS的基本理念是：</p>
@@ -407,13 +407,13 @@
 </li>
 </ul>
 <h6 id="预检请求-preflight"><a href="#预检请求-preflight" class="headerlink" title="预检请求(preflight)"></a>预检请求(preflight)</h6><p>简单请求之外的所以请求</p>
-<h5 id="对简单请求的验证"><a href="#对简单请求的验证" class="headerlink" title="对简单请求的验证"></a>对简单请求的验证</h5><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/5.png">
+<h5 id="对简单请求的验证"><a href="#对简单请求的验证" class="headerlink" title="对简单请求的验证"></a>对简单请求的验证</h5><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/images/5.png">
 
 <p>服务器会在响应头中添加</p>
 <p>Access-Control-Allow-origin:<a target="_blank" rel="noopener" href="http://my.com/">http://my.com</a>  或 Access-Control-Allow-0rigin:*</p>
 <p>其中<a target="_blank" rel="noopener" href="http://my.com/">http://my.com</a> 是客户端的源地址</p>
 <h5 id="对预检请求的验证"><a href="#对预检请求的验证" class="headerlink" title="对预检请求的验证"></a>对预检请求的验证</h5><p>1.发送预检请求：首先浏览器会拦截真实的请求，自己发送一个options的请求，得到服务器的通过相应后，执行第二步</p>
-<h6 id=""><a href="#" class="headerlink" title=""></a></h6><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/6.png">
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/images/6.png">
 
 
 
@@ -429,7 +429,7 @@
 
 <p>这样JS就能够访问指定的响应头了。</p>
 <h4 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h4><p>出现CORS方案出来之前</p>
-<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/7.png">
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/images/7.png">
 
 <p>上图的规则针对的是ajax，要绕过此，就不使用ajax获取数据</p>
 <p>josnp解决跨域需要与后端规定好返回的数据格式为一个函数，客户端使用script标签获取数据后，使用callback得到返回的数据</p>
@@ -446,12 +446,12 @@
 <p>因此，除非是某些特殊的原因，否则永远不应该使用JSONP</p>
 <h4 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h4><p>CORS和JSONP均要求服务器是「自己人」</p>
 <p>那如果不是呢？</p>
-<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/8.png">
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/images/8.png">
 
 <p>代理方法的解决思路如下</p>
-<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/9.png">
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/images/9.png">
 
-<h4 id="如何选择？"><a href="#如何选择？" class="headerlink" title="如何选择？"></a>如何选择？</h4><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/images/10.png">
+<h4 id="如何选择？"><a href="#如何选择？" class="headerlink" title="如何选择？"></a>如何选择？</h4><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/images/10.png">
 
 
 
@@ -460,7 +460,7 @@
 
 </article>
 
-<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/09/06/Express%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91/">Express 框架开发</a></div></section></div>
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/09/06/Express%20%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">Express 基本使用</a></div></section></div>
 
 
 
