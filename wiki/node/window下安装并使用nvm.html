@@ -20,15 +20,15 @@
   <title>Node建站：window下安装并使用nvm - Zboke</title>
 
   
-    <meta name="description" content="环境准备1.安装 Node.js：请前往 Node.js 官网下载并安装适合你操作系统的 Node.js 版本。 使用 express 搭建服务在 express-demo 文件夹下执行 npm init 命令，然后一路回车，就会帮我们创建一个 package.json 文件，然后再执行 npm install express 来安装 express 模块，然后改写 server.js 。 123">
+    <meta name="description" content="一、卸载 node如果你已经安装了 node，那么你需要先卸载 node（不然安装 nvm 可能会失败），如果你没有安装那直接跳过这一步到下一步。 打开控制面板 -&gt; 打开程序和功能 -&gt; 右上角搜索输入 node -&gt; 右键卸载 为了确保彻底删除 node 在看看你的 node 安装目录中还有没有 node 文件夹，有的话一起删除。再看看 C:\Users\用户名 文件夹下有没">
 <meta property="og:type" content="website">
 <meta property="og:title" content="window下安装并使用nvm">
 <meta property="og:url" content="http://example.com/wiki/node/window%E4%B8%8B%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8nvm.html">
 <meta property="og:site_name" content="Zboke">
-<meta property="og:description" content="环境准备1.安装 Node.js：请前往 Node.js 官网下载并安装适合你操作系统的 Node.js 版本。 使用 express 搭建服务在 express-demo 文件夹下执行 npm init 命令，然后一路回车，就会帮我们创建一个 package.json 文件，然后再执行 npm install express 来安装 express 模块，然后改写 server.js 。 123">
+<meta property="og:description" content="一、卸载 node如果你已经安装了 node，那么你需要先卸载 node（不然安装 nvm 可能会失败），如果你没有安装那直接跳过这一步到下一步。 打开控制面板 -&gt; 打开程序和功能 -&gt; 右上角搜索输入 node -&gt; 右键卸载 为了确保彻底删除 node 在看看你的 node 安装目录中还有没有 node 文件夹，有的话一起删除。再看看 C:\Users\用户名 文件夹下有没">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-11-18T03:31:10.985Z">
-<meta property="article:modified_time" content="2024-11-18T03:31:10.985Z">
+<meta property="article:published_time" content="2024-11-19T02:25:30.207Z">
+<meta property="article:modified_time" content="2024-11-19T02:25:30.207Z">
 <meta property="article:author" content="accopy">
 <meta name="twitter:card" content="summary">
   
@@ -42,7 +42,7 @@
   <link rel="stylesheet" href="/css/main.css?v=1.29.1">
 
   
-    <link rel="shortcut icon" href="/images/icon.png">
+    <link rel="shortcut icon" href="/assets/icon.png">
   
 
   
@@ -56,7 +56,7 @@
 <div class="l_body s:aa content tech" id="start" layout="page" ><aside class="l_left"><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="/images/wiki/node/icon.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/node/window%E4%B8%8B%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8nvm.html"><div class="main" ff="title">Node建站</div><div class="sub normal cap"></div><div class="sub hover cap" style="opacity:0"> </div></a></div></header>
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="/assets/wiki/node/icon.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/wiki/node/%E7%AE%80%E4%BB%8B.html"><div class="main" ff="title">Node建站</div><div class="sub normal cap"></div><div class="sub hover cap" style="opacity:0"> </div></a></div></header>
 
 <div class="nav-area">
 <div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" data-filter="/wiki/node/" placeholder="在 node 中搜索..."></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
@@ -66,7 +66,7 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">快速开始</span></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">快速开始</span></div><div class="widget-body fs14"><a class="link" href="/wiki/node/%E7%AE%80%E4%BB%8B.html#start"><span class="toc-text">简介</span></a><a class="link active" href="/wiki/node/window%E4%B8%8B%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8nvm.html"><span class="toc-text">window下安装并使用nvm</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div><div class="widget-header dis-select"><span class="name">express 快速入门</span></div><div class="widget-body fs14"><a class="link" href="/wiki/node/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%90%8E%E7%AB%AF%E6%9C%8D%E5%8A%A1.html"><span class="toc-text">快速搭建后端服务</span></a><a class="link" href="/wiki/node/%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5.html"><span class="toc-text">核心概念</span></a><a class="link" href="/wiki/node/%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1.html"><span class="toc-text">静态文件服务</span></a><a class="link" href="/wiki/node/%E5%A4%84%E7%90%86%E9%94%99%E8%AF%AF.html"><span class="toc-text">处理错误</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -78,8 +78,8 @@
 <div class="article banner top">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/node/window%E4%B8%8B%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8nvm.html">Node建站</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2024-11-18T03:31:10.985Z">2024-11-18</time></span></div></div></div>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/node/%E7%AE%80%E4%BB%8B.html">Node建站</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2024-11-19T02:25:30.207Z">2024-11-19</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -90,33 +90,24 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>1.安装 Node.js：请前往 Node.js 官网下载并安装适合你操作系统的 Node.js 版本。</p>
-<h2 id="使用-express-搭建服务"><a href="#使用-express-搭建服务" class="headerlink" title="使用 express 搭建服务"></a>使用 express 搭建服务</h2><p>在 <code>express-demo</code> 文件夹下执行 <code>npm init</code> 命令，然后一路回车，就会帮我们创建一个 <code>package.json</code> 文件，然后再执行 <code>npm install express</code> 来安装 express 模块，然后改写 <code>server.js</code> 。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const express = require(&#x27;express&#x27;)</span><br><span class="line"></span><br><span class="line">const app = express()</span><br><span class="line"></span><br><span class="line">app.get(&#x27;/&#x27;, (req, res) =&gt; &#123;</span><br><span class="line">  res.send(&#x27;hello world&#x27;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(3000, () =&gt; &#123;</span><br><span class="line">  console.log(&#x27;服务已启动...&#x27;);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>Request 和 Response 对象<br>Request 对象是请求对象，就是回调函数中的 req 参数，主要是网络请求中带的一些属性，比如参数, cookie 等等。</p>
-<p>Response 对象是响应对象，就是回调函数中的 res 参数，可以执行一系列的响应操作，比如给客户端响应内容和状态等等。</p>
-<p>查看 Request 和 Response 对象的所有 API</p>
+  </div><article class="md-text content"><p>一、卸载 node<br>如果你已经安装了 node，那么你需要先卸载 node（不然安装 nvm 可能会失败），如果你没有安装那直接跳过这一步到下一步。</p>
+<p>打开控制面板 -&gt; 打开程序和功能 -&gt; 右上角搜索输入 node -&gt; 右键卸载</p>
+<p>为了确保彻底删除 node 在看看你的 node 安装目录中还有没有 node 文件夹，有的话一起删除。再看看 C:\Users\用户名 文件夹下有没有.npmrc 以及.yarnrc 等等统统删除。再去看看你的环境变量有没有 node 相关的，有的话也一起删除了。</p>
+<p>二、安装 nvm<br>去 github 下载最新的 nvm 找到 nvm-setup.zip 点击下载</p>
+<p>三、nvm 常用命令<br>命令 说明<br>nvm list 查看已经安装的版本<br>nvm list installed 查看已经安装的版本<br>nvm list available 查看网络可以安装的版本<br>nvm arch 查看当前系统的位数和当前 nodejs 的位数<br>nvm install [arch] 安装制定版本的 node 并且可以指定平台 version 版本号 arch 平台<br>nvm on 打开 nodejs 版本控制<br>nvm off 关闭 nodejs 版本控制<br>nvm proxy [url] 查看和设置代理<br>nvm node_mirror [url] 设置或者查看 setting.txt 中的 node_mirror，如果不设置的默认是 <a target="_blank" rel="noopener" href="https://nodejs.org/dist/">https://nodejs.org/dist/</a><br>nvm npm_mirror [url] 设置或者查看 setting.txt 中的 npm_mirror,如果不设置的话默认的是：<a target="_blank" rel="noopener" href="https://github.com/npm/npm/archive/">https://github.com/npm/npm/archive/</a>.<br>nvm uninstall 卸载指定的版本<br>nvm use [version] [arch] 切换指定的 node 版本和位数<br>nvm root [path] 设置和查看 root 路径<br>nvm version 查看当前的版本</p>
 
 
 </article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/node/%E7%AE%80%E4%BB%8B.html">简介</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/node/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%90%8E%E7%AB%AF%E6%9C%8D%E5%8A%A1.html">快速搭建后端服务</a></div></section></div>
 
 
 
 
-
-<footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期发布</a><a href="/categories/">文章分类</a><a href="/tags/">文章标签</a><a href="/archives/">文章归档</a></div><div class="sitemap-group"><span class="fs15">维基</span><a href="/wiki/">所有维基</a><a href="/wiki/tags/%E7%AC%94%E8%AE%B0/">笔记</a></div><div class="sitemap-group"><span class="fs15">动态</span><a href="/news/">2024</a><a href="/news/2023/">2023</a><a href="/news/2022/">2022</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/more/me/">关于博主</a><a href="/more/music/">我的歌单</a></div></div><div class="text"><p>本站使用 <a href="">Hexo</a> 框架和 <a href="">Stellar</a> 主题创建。<br>本站所有内容均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">署名-非商业性使用-禁止演绎 4.0 国际</a> 许可协议，未经授权请勿转载。<br><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></p>
+<footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期发布</a><a href="/categories/">文章分类</a><a href="/tags/">文章标签</a><a href="/archives/">文章归档</a></div><div class="sitemap-group"><span class="fs15">维基</span><a href="/wiki/">所有维基</a><a href="/wiki/tags/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/">博客主题</a><a href="/wiki/tags/%E7%AC%94%E8%AE%B0/">笔记</a></div><div class="sitemap-group"><span class="fs15">动态</span><a href="/news/">2024</a><a href="/news/2023/">2023</a><a href="/news/2022/">2022</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/more/">关于博主</a><a href="/more/music/">我的歌单</a></div></div><div class="text"><p>本站使用 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a> 框架和 <a target="_blank" rel="noopener" href="https://xaoxuu.com/wiki/stellar/#start">Stellar</a> 主题创建。<br>本站所有内容均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">署名-非商业性使用-禁止演绎 4.0 国际</a> 许可协议，未经授权请勿转载。<br><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-<div class="widgets">
-
-
-
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-express-%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1"><span class="toc-text">使用 express 搭建服务</span></a></li></ol></div><div class="widget-footer">
-
-<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
-</div></aside><div class='float-panel blur'>
+</aside><div class='float-panel blur'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
