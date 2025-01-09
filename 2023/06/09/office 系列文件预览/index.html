@@ -1,0 +1,711 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1" theme-name="Stellar" theme-version="1.29.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>office 系列文件预览 - Accopy</title>
+
+  
+    <meta name="description" content="简介如果遇到文档管理类的业务功能，会出现需要在线预览的业务需求，合同文件、发票文件等业务同样需要文件的在线预览。 本文围绕以下解决方案展开：  微软 Office Web Viewer pdfjs docx-preview xlsx 第三方封装组件 私有 Office 平台介绍 (需后端部署)  演示环境 电脑 - Windows 10 Node - v16.15.0 Npm - 9.4.0 Ex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="office 系列文件预览">
+<meta property="og:url" content="http://example.com/2023/06/09/office%20%E7%B3%BB%E5%88%97%E6%96%87%E4%BB%B6%E9%A2%84%E8%A7%88/index.html">
+<meta property="og:site_name" content="Accopy">
+<meta property="og:description" content="简介如果遇到文档管理类的业务功能，会出现需要在线预览的业务需求，合同文件、发票文件等业务同样需要文件的在线预览。 本文围绕以下解决方案展开：  微软 Office Web Viewer pdfjs docx-preview xlsx 第三方封装组件 私有 Office 平台介绍 (需后端部署)  演示环境 电脑 - Windows 10 Node - v16.15.0 Npm - 9.4.0 Ex">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-09T08:30:08.000Z">
+<meta property="article:modified_time" content="2023-06-09T08:30:08.000Z">
+<meta property="article:author" content="accopy">
+<meta property="article:tag" content="pdf.js">
+<meta property="article:tag" content="office">
+<meta property="article:tag" content="express">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="pdf.js,office,express">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.29.1">
+
+  
+    <link rel="shortcut icon" href="/assets/images/icon.png">
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css" />
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/assets/images/avatar.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Accopy</div><div class="sub normal cap">三天打鱼😭</div><div class="sub hover cap" style="opacity:0"> 两天晒网😁</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="动态" href="/news/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="更多" href="/more/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2023/06/09/%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BE/"><span class="title">高德地图 搜索/定位/地图控件</span></a><a class="item title" href="/2023/06/09/office%20%E7%B3%BB%E5%88%97%E6%96%87%E4%BB%B6%E9%A2%84%E8%A7%88/"><span class="title">office 系列文件预览</span></a><a class="item title" href="/2023/06/08/%E5%A4%A7%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%20%E5%88%86%E7%89%87%20%E7%BB%AD%E4%BC%A0%20%E7%A7%92%E4%BC%A0/"><span class="title">大文件上传 分片 续传 秒传</span></a><a class="item title" href="/2023/06/08/ChatGPT%20%E7%9A%84%E6%89%93%E5%AD%97%E6%95%88%E6%9E%9C%E5%8E%9F%E7%90%86/"><span class="title">ChatGPT 的打字效果原理</span></a><a class="item title" href="/2023/06/08/%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8-%E6%B8%B2%E6%9F%93%2010%20%E4%B8%87%E6%9D%A1%E6%95%B0%E6%8D%AE/"><span class="title">虚拟列表-渲染 10 万条数据</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%BA%94%E7%94%A8%E7%AC%94%E8%AE%B0/">应用笔记</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2023-06-09T08:30:08.000Z">2023-06-09</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2023-06-09T08:30:08.000Z">2023-06-09</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>office 系列文件预览</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>如果遇到文档管理类的业务功能，会出现需要在线预览的业务需求，合同文件、发票文件等业务同样需要文件的在线预览。</p>
+<p>本文围绕以下解决方案展开：</p>
+<ul>
+<li>微软 Office Web Viewer</li>
+<li>pdfjs</li>
+<li>docx-preview</li>
+<li>xlsx</li>
+<li>第三方封装组件</li>
+<li>私有 Office 平台介绍 (需后端部署)</li>
+</ul>
+<h2 id="演示环境"><a href="#演示环境" class="headerlink" title="演示环境"></a>演示环境</h2><ul>
+<li>电脑 - Windows 10</li>
+<li>Node - v16.15.0</li>
+<li>Npm - 9.4.0</li>
+<li>Express - 4.18.2</li>
+</ul>
+<h2 id="微软-Office-Web-Viewer"><a href="#微软-Office-Web-Viewer" class="headerlink" title="微软 Office Web Viewer"></a>微软 Office Web Viewer</h2><p><a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/microsoft-365/blog/2013/04/10/office-web-viewer-view-office-documents-in-a-browser/">Office Web Viewer</a> 是由微软提供的一项免费服务，用户不需要安装 Office 软件，直接通过浏览器在线预览 docx、xlsx、pptx 文件。</p>
+<p>Office Web Viewer 的服务链接为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://view.officeapps.live.com/op/view.aspx?src=[文件链接]</span><br></pre></td></tr></table></figure>
+
+<p>1</p>
+<p>其中 <strong>[文件链接]</strong> 是需要预览文件的在线地址，按需替换成自己的文件链接即可。</p>
+<p><strong>注意</strong></p>
+<ol>
+<li>文件会传输到微软的服务器上，因此可能会涉及到文件隐私。</li>
+<li>不支持 pdf 预览。</li>
+</ol>
+<p><strong>适用场景</strong></p>
+<ul>
+<li>用于<strong>公网展示</strong>的文件预览，如某公告文件在线预览，能快速实现需求。</li>
+<li>支持 docx、xlsx、pptx 文件，用于无需下载文件直接在线预览，适用于分享查看。</li>
+</ul>
+<h3 id="前端实现"><a href="#前端实现" class="headerlink" title="前端实现"></a>前端实现</h3><ul>
+<li>出于通用性考虑，通过 <code>encodeURIComponent</code> 对特殊字符进行编码</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=&quot;ts&quot;&gt;</span><br><span class="line">import &#123; ref &#125; from &#x27;vue&#x27;</span><br><span class="line"></span><br><span class="line">// 预览地址</span><br><span class="line">const officeUrl = ref(&#x27;&#x27;)</span><br><span class="line"></span><br><span class="line">// 资源地址</span><br><span class="line">const docx = &#x27;https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/solution/demo.docx&#x27;</span><br><span class="line">const xlsx = &#x27;https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/solution/demo.xlsx&#x27;</span><br><span class="line">const pptx = &#x27;https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/solution/demo.pptx&#x27;</span><br><span class="line">const pdf = &#x27;https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/solution/demo.pdf&#x27;</span><br><span class="line"></span><br><span class="line">// 使用微软 Office Web Viewer 服务预览 office 文件</span><br><span class="line">const previewOffice = (url: string) =&gt; &#123;</span><br><span class="line">  // 考虑到特殊字符，通过 encodeURIComponent 处理一下 url</span><br><span class="line">  officeUrl.value = `https://view.officeapps.live.com/op/view.aspx?src=$&#123;encodeURIComponent(url)&#125;`</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 复制分享地址</span><br><span class="line">const copyToClipboard = async (text: string) =&gt; &#123;</span><br><span class="line">  await navigator.clipboard.writeText(text)</span><br><span class="line">  alert(&#x27;复制成功&#x27;)</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;container&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;btns&quot;&gt;</span><br><span class="line">      &lt;!-- 微软 Office Web Viewer 服务 --&gt;</span><br><span class="line">      &lt;button @click=&quot;previewOffice(docx)&quot;&gt;预览docx&lt;/button&gt;</span><br><span class="line">      &lt;button @click=&quot;previewOffice(xlsx)&quot;&gt;预览xlsx&lt;/button&gt;</span><br><span class="line">      &lt;button @click=&quot;previewOffice(pptx)&quot;&gt;预览pptx&lt;/button&gt;</span><br><span class="line">      &lt;!-- pdf 直接预览 --&gt;</span><br><span class="line">      &lt;button @click=&quot;officeUrl = pdf&quot;&gt;预览pdf&lt;/button&gt;</span><br><span class="line">      &lt;!-- 复制分享地址 --&gt;</span><br><span class="line">      &lt;button class=&quot;copy-btn&quot; v-if=&quot;officeUrl&quot; @click=&quot;copyToClipboard(officeUrl)&quot;&gt;</span><br><span class="line">        复制分享地址</span><br><span class="line">      &lt;/button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;!-- 通过 iframe 嵌入 --&gt;</span><br><span class="line">    &lt;iframe class=&quot;previewOffice&quot; :src=&quot;officeUrl&quot;&gt;&lt;/iframe&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot;&gt;</span><br><span class="line">body &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">&#125;</span><br><span class="line">.container &#123;</span><br><span class="line">  width: 100vw;</span><br><span class="line">  height: 100vh;</span><br><span class="line">  display: flex;</span><br><span class="line">  flex-direction: column;</span><br><span class="line">  .previewOffice &#123;</span><br><span class="line">    flex: 1;</span><br><span class="line">  &#125;</span><br><span class="line">  .copy-btn &#123;</span><br><span class="line">    background-color: #070;</span><br><span class="line">    color: #fff;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="pdf-预览"><a href="#pdf-预览" class="headerlink" title="pdf 预览"></a>pdf 预览</h2><p>通过 <a target="_blank" rel="noopener" href="https://github.com/mozilla/pdfjs-dist">PDF.js</a> 加载 PDF 文件，渲染到 Canvas 上。</p>
+<ul>
+<li>安装依赖 <code>npm i pdfjs-dist</code></li>
+<li>设置 workerSrc 的值</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://mozilla.github.io/pdf.js/examples/">官方教程</a></p>
+<p><strong>业务场景</strong></p>
+<p>渲染 pdf 的需求较为常见，如预览电子发票，合同，学术论文等。</p>
+<h3 id="本地选择"><a href="#本地选择" class="headerlink" title="本地选择"></a>本地选择</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=&quot;ts&quot;&gt;</span><br><span class="line">import &#123; ref &#125; from &#x27;vue&#x27;</span><br><span class="line">import * as pdfjsLib from &#x27;pdfjs-dist&#x27;</span><br><span class="line">// 设置 workerSrc 的值，cdn 远程加载</span><br><span class="line">pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$&#123;pdfjsLib.version&#125;/pdf.worker.js`</span><br><span class="line"></span><br><span class="line">const canvasRef = ref&lt;HTMLCanvasElement&gt;()</span><br><span class="line">const previewPdf = async (event: Event) =&gt; &#123;</span><br><span class="line">  // 获取文件</span><br><span class="line">  const file = (event.target as HTMLInputElement).files?.[0]</span><br><span class="line">  // 获取 canvas</span><br><span class="line">  const canvas = canvasRef.value</span><br><span class="line"></span><br><span class="line">  if (file &amp;&amp; canvas) &#123;</span><br><span class="line">    const ctx = canvas.getContext(&#x27;2d&#x27;)</span><br><span class="line">    if (!ctx) return</span><br><span class="line">    const data = await file.arrayBuffer()</span><br><span class="line">    pdfjsLib.getDocument(&#123; data &#125;).promise.then((pdf) =&gt; &#123;</span><br><span class="line">      pdf.getPage(1).then((page) =&gt; &#123;</span><br><span class="line">        const viewport = page.getViewport(&#123; scale: 1.5 &#125;)</span><br><span class="line">        canvas.width = viewport.width</span><br><span class="line">        canvas.height = viewport.height</span><br><span class="line">        page.render(&#123; canvasContext: ctx, viewport &#125;)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;!-- pdf 预览 --&gt;</span><br><span class="line">  &lt;input type=&quot;file&quot; accept=&quot;.pdf&quot; @change=&quot;previewPdf&quot; /&gt;</span><br><span class="line">  &lt;br /&gt;</span><br><span class="line">  &lt;canvas ref=&quot;canvasRef&quot;&gt;&lt;/canvas&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="远程请求"><a href="#远程请求" class="headerlink" title="远程请求"></a>远程请求</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=&quot;ts&quot;&gt;</span><br><span class="line">import * as pdfjsLib from &#x27;pdfjs-dist&#x27;</span><br><span class="line">import &#123; ref &#125; from &#x27;vue&#x27;</span><br><span class="line">import axios from &#x27;axios&#x27;</span><br><span class="line"></span><br><span class="line">// 设置 workerSrc 的值，cdn 远程加载</span><br><span class="line">pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$&#123;pdfjsLib.version&#125;/pdf.worker.js`</span><br><span class="line"></span><br><span class="line">const canvasRef = ref&lt;HTMLCanvasElement&gt;()</span><br><span class="line"></span><br><span class="line">const file = ref()</span><br><span class="line">const getFile = async () =&gt; &#123;</span><br><span class="line">  const res = await axios(&#123;</span><br><span class="line">    method: &#x27;get&#x27;,</span><br><span class="line">    url: &#x27;https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/solution/demo.pdf&#x27;,</span><br><span class="line">    responseType: &#x27;arraybuffer&#x27;,</span><br><span class="line">  &#125;)</span><br><span class="line">  file.value = res.data</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const previewFile = async () =&gt; &#123;</span><br><span class="line">  await getFile()</span><br><span class="line">  const canvas = canvasRef.value</span><br><span class="line"></span><br><span class="line">  if (file.value &amp;&amp; canvas) &#123;</span><br><span class="line">    const ctx = canvas.getContext(&#x27;2d&#x27;)</span><br><span class="line">    if (!ctx) return</span><br><span class="line"></span><br><span class="line">    const data = new Uint8Array(file.value)</span><br><span class="line">    pdfjsLib.getDocument(&#123; data &#125;).promise.then((pdf) =&gt; &#123;</span><br><span class="line">      pdf.getPage(1).then((page) =&gt; &#123;</span><br><span class="line">        const viewport = page.getViewport(&#123; scale: 1.5 &#125;)</span><br><span class="line">        canvas.width = viewport.width</span><br><span class="line">        canvas.height = viewport.height</span><br><span class="line">        page.render(&#123; canvasContext: ctx, viewport &#125;)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;button @click=&quot;previewFile&quot;&gt;获取文档&lt;/button&gt;</span><br><span class="line">  &lt;br /&gt;</span><br><span class="line">  &lt;!-- pdf 预览容器 --&gt;</span><br><span class="line">  &lt;canvas ref=&quot;canvasRef&quot;&gt;&lt;/canvas&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="docx-预览"><a href="#docx-预览" class="headerlink" title="docx 预览"></a>docx 预览</h2><p>通过 docx-preview 加载 docx 文件。</p>
+<ul>
+<li>安装依赖 <code>npm i docx-preview</code></li>
+<li>调用 <code>renderAsync</code> 方法来渲染文档</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/VolodymyrBaydalka/docxjs">官方文档</a></p>
+<h3 id="本地选择-1"><a href="#本地选择-1" class="headerlink" title="本地选择"></a>本地选择</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=&quot;ts&quot;&gt;</span><br><span class="line">import &#123; ref &#125; from &#x27;vue&#x27;</span><br><span class="line">import &#123; defaultOptions, renderAsync &#125; from &#x27;docx-preview&#x27;</span><br><span class="line"></span><br><span class="line">// 定义一个 ref 来存储容器元素</span><br><span class="line">const container = ref&lt;HTMLElement&gt;()</span><br><span class="line"></span><br><span class="line">// 定义一个异步函数 previewFile 来预览文档</span><br><span class="line">const previewFile = async (event: Event) =&gt; &#123;</span><br><span class="line">  // 获取上传的文件</span><br><span class="line">  const file = (event.target as HTMLInputElement).files?.[0]</span><br><span class="line"></span><br><span class="line">  if (file &amp;&amp; container.value) &#123;</span><br><span class="line">    // 将文件转换为 ArrayBuffer</span><br><span class="line">    const arrayBuffer = await file.arrayBuffer()</span><br><span class="line">    // 调用 renderAsync 方法来渲染文档</span><br><span class="line">    await renderAsync(arrayBuffer, container.value, undefined, &#123;</span><br><span class="line">      ...defaultOptions,</span><br><span class="line">      className: &#x27;docx&#x27;,</span><br><span class="line">      inWrapper: true,</span><br><span class="line">      ignoreWidth: false,</span><br><span class="line">      ignoreHeight: false,</span><br><span class="line">      ignoreFonts: false,</span><br><span class="line">      breakPages: true,</span><br><span class="line">      ignoreLastRenderedPageBreak: true,</span><br><span class="line">      experimental: false,</span><br><span class="line">      trimXmlDeclaration: true,</span><br><span class="line">      debug: false,</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;!-- 添加一个文件上传的 input 元素，绑定 change 事件到 previewFile 函数 --&gt;</span><br><span class="line">    &lt;input type=&quot;file&quot; accept=&quot;.docx&quot; @change=&quot;previewFile&quot; /&gt;</span><br><span class="line">    &lt;!-- 添加一个 div 元素，通过 ref 绑定到 container 变量 --&gt;</span><br><span class="line">    &lt;div ref=&quot;container&quot;&gt;&lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="远程请求-1"><a href="#远程请求-1" class="headerlink" title="远程请求"></a>远程请求</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=&quot;ts&quot;&gt;</span><br><span class="line">import &#123; ref &#125; from &#x27;vue&#x27;</span><br><span class="line">import &#123; defaultOptions, renderAsync &#125; from &#x27;docx-preview&#x27;</span><br><span class="line">import axios from &#x27;axios&#x27;</span><br><span class="line"></span><br><span class="line">// 定义一个 ref 来存储容器元素</span><br><span class="line">const container = ref&lt;HTMLElement&gt;()</span><br><span class="line"></span><br><span class="line">const fileRef = ref()</span><br><span class="line">const getFile = async () =&gt; &#123;</span><br><span class="line">  const res = await axios(&#123;</span><br><span class="line">    method: &#x27;get&#x27;,</span><br><span class="line">    url: &#x27;https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/solution/demo.docx&#x27;,</span><br><span class="line">    // 返回类型为 arraybuffer</span><br><span class="line">    responseType: &#x27;arraybuffer&#x27;,</span><br><span class="line">  &#125;)</span><br><span class="line">  fileRef.value = res.data</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 定义一个异步函数 previewFile 来预览文档</span><br><span class="line">const previewFile = async () =&gt; &#123;</span><br><span class="line">  // 获取文档</span><br><span class="line">  await getFile()</span><br><span class="line">  // 获取 arraybuffer</span><br><span class="line">  const file = fileRef.value</span><br><span class="line"></span><br><span class="line">  if (file &amp;&amp; container.value) &#123;</span><br><span class="line">    // 调用 renderAsync 方法来渲染文档</span><br><span class="line">    await renderAsync(file, container.value, undefined, &#123;</span><br><span class="line">      ...defaultOptions,</span><br><span class="line">      className: &#x27;docx&#x27;,</span><br><span class="line">      inWrapper: true,</span><br><span class="line">      ignoreWidth: false,</span><br><span class="line">      ignoreHeight: false,</span><br><span class="line">      ignoreFonts: false,</span><br><span class="line">      breakPages: true,</span><br><span class="line">      ignoreLastRenderedPageBreak: true,</span><br><span class="line">      experimental: false,</span><br><span class="line">      trimXmlDeclaration: true,</span><br><span class="line">      debug: false,</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;button @click=&quot;previewFile&quot;&gt;获取文档&lt;/button&gt;</span><br><span class="line">  &lt;br /&gt;</span><br><span class="line">  &lt;!-- 添加一个 div 元素，通过 ref 绑定到 container 变量 --&gt;</span><br><span class="line">  &lt;div ref=&quot;container&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="xlsx-预览"><a href="#xlsx-预览" class="headerlink" title="xlsx 预览"></a>xlsx 预览</h2><p>通过 xlsx 加载 xlsx 文件。</p>
+<ul>
+<li>安装依赖 <code>npm i xlsx</code></li>
+<li>调用相关方法获取 excel 文件数据</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://docs.sheetjs.com/docs/demos/frontend/vue">官方教程</a></p>
+<h3 id="本地选择-2"><a href="#本地选择-2" class="headerlink" title="本地选择"></a>本地选择</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=&quot;ts&quot;&gt;</span><br><span class="line">import &#123; ref &#125; from &#x27;vue&#x27;</span><br><span class="line">import &#123; read, utils &#125; from &#x27;xlsx&#x27;</span><br><span class="line"></span><br><span class="line">// 本地选择文件</span><br><span class="line">const rows = ref&lt;any&gt;([])</span><br><span class="line">const previewFile = async (event: Event) =&gt; &#123;</span><br><span class="line">  // 获取上传的文件</span><br><span class="line">  const file = (event.target as HTMLInputElement).files?.[0]</span><br><span class="line"></span><br><span class="line">  if (file) &#123;</span><br><span class="line">    // 将文件转换为 ArrayBuffer</span><br><span class="line">    const arrayBuffer = await file.arrayBuffer()</span><br><span class="line"></span><br><span class="line">    // 读取 Sheets</span><br><span class="line">    const sheet = read(arrayBuffer).Sheets</span><br><span class="line"></span><br><span class="line">    /* 渲染数据 */</span><br><span class="line">    rows.value = utils.sheet_to_json(sheet[&#x27;Data&#x27;])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;input type=&quot;file&quot; accept=&quot;.xlsx&quot; ref=&quot;fileInput&quot; @change=&quot;previewFile&quot; /&gt;</span><br><span class="line">  &lt;table&gt;</span><br><span class="line">    &lt;thead&gt;</span><br><span class="line">      &lt;th&gt;Name&lt;/th&gt;</span><br><span class="line">      &lt;th&gt;Index&lt;/th&gt;</span><br><span class="line">    &lt;/thead&gt;</span><br><span class="line">    &lt;tbody&gt;</span><br><span class="line">      &lt;tr v-for=&quot;(item, index) in rows&quot; :key=&quot;index&quot;&gt;</span><br><span class="line">        &lt;td&gt;&#123;&#123; item.Name &#125;&#125;&lt;/td&gt;</span><br><span class="line">        &lt;td&gt;&#123;&#123; item.Index &#125;&#125;&lt;/td&gt;</span><br><span class="line">      &lt;/tr&gt;</span><br><span class="line">    &lt;/tbody&gt;</span><br><span class="line">  &lt;/table&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="远程请求-2"><a href="#远程请求-2" class="headerlink" title="远程请求"></a>远程请求</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=&quot;ts&quot;&gt;</span><br><span class="line">import axios from &#x27;axios&#x27;</span><br><span class="line">import &#123; ref &#125; from &#x27;vue&#x27;</span><br><span class="line">import &#123; read, utils &#125; from &#x27;xlsx&#x27;</span><br><span class="line"></span><br><span class="line">const getFile = async () =&gt; &#123;</span><br><span class="line">  const res = await axios(&#123;</span><br><span class="line">    method: &#x27;get&#x27;,</span><br><span class="line">    url: &#x27;https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/solution/demo.xlsx&#x27;,</span><br><span class="line">    // 返回类型为 arraybuffer</span><br><span class="line">    responseType: &#x27;arraybuffer&#x27;,</span><br><span class="line">  &#125;)</span><br><span class="line">  return res.data</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const rows = ref&lt;any&gt;([])</span><br><span class="line">const previewFile = async () =&gt; &#123;</span><br><span class="line">  const arrayBuffer = await getFile()</span><br><span class="line"></span><br><span class="line">  if (arrayBuffer) &#123;</span><br><span class="line">    // 读取 Sheets</span><br><span class="line">    const sheet = read(arrayBuffer).Sheets</span><br><span class="line"></span><br><span class="line">    /* 渲染数据 */</span><br><span class="line">    rows.value = utils.sheet_to_json(sheet[&#x27;Data&#x27;])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;button @click=&quot;previewFile&quot;&gt;获取文档&lt;/button&gt;</span><br><span class="line">  &lt;br /&gt;</span><br><span class="line">  &lt;table&gt;</span><br><span class="line">    &lt;thead&gt;</span><br><span class="line">      &lt;th&gt;Name&lt;/th&gt;</span><br><span class="line">      &lt;th&gt;Index&lt;/th&gt;</span><br><span class="line">    &lt;/thead&gt;</span><br><span class="line">    &lt;tbody&gt;</span><br><span class="line">      &lt;tr v-for=&quot;(item, index) in rows&quot; :key=&quot;index&quot;&gt;</span><br><span class="line">        &lt;td&gt;&#123;&#123; item.Name &#125;&#125;&lt;/td&gt;</span><br><span class="line">        &lt;td&gt;&#123;&#123; item.Index &#125;&#125;&lt;/td&gt;</span><br><span class="line">      &lt;/tr&gt;</span><br><span class="line">    &lt;/tbody&gt;</span><br><span class="line">  &lt;/table&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="vue-office-组件-推荐"><a href="#vue-office-组件-推荐" class="headerlink" title="vue-office 组件 - 推荐"></a>vue-office 组件 - 推荐</h2><p>支持多种文件(docx、excel、pdf)预览的 vue 组件库。</p>
+<ul>
+<li>同时支持 vue2&#x2F;3</li>
+<li>使用简单</li>
+<li>支持本地文件</li>
+<li>支持远程地址</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/501351981/vue-office">官方文档</a></p>
+<h3 id="pdf-预览-1"><a href="#pdf-预览-1" class="headerlink" title="pdf 预览"></a>pdf 预览</h3><ul>
+<li>安装依赖 <code>npm i @vue-office/pdf</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=&quot;ts&quot;&gt;</span><br><span class="line">// 引入 VueOffice 组件</span><br><span class="line">import VueOfficePdf from &#x27;@vue-office/pdf&#x27;</span><br><span class="line">import &#123; ref &#125; from &#x27;vue&#x27;</span><br><span class="line"></span><br><span class="line">// 设置文档网络地址，可以是本地文件</span><br><span class="line">const src = ref()</span><br><span class="line"></span><br><span class="line">// 本地预览</span><br><span class="line">const previewFile = async (event: Event) =&gt; &#123;</span><br><span class="line">  const file = (event.target as HTMLInputElement).files?.[0]</span><br><span class="line">  src.value = file</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 请求预览</span><br><span class="line">const getFile = () =&gt; &#123;</span><br><span class="line">  src.value = &#x27;https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/solution/demo.pdf&#x27;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;button @click=&quot;getFile&quot;&gt;获取远程&lt;/button&gt;</span><br><span class="line">  &lt;input type=&quot;file&quot; accept=&quot;.pdf&quot; @change=&quot;previewFile&quot; /&gt;</span><br><span class="line">  &lt;vue-office-pdf :src=&quot;src&quot; style=&quot;height: 100vh&quot; /&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="docx-预览-1"><a href="#docx-预览-1" class="headerlink" title="docx 预览"></a>docx 预览</h3><ul>
+<li>安装依赖 <code>npm i @vue-office/docx</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=&quot;ts&quot;&gt;</span><br><span class="line">// 引入 VueOffice 组件</span><br><span class="line">import VueOfficeDocx from &#x27;@vue-office/docx&#x27;</span><br><span class="line">// 引入相关样式</span><br><span class="line">import &#x27;@vue-office/docx/lib/index.css&#x27;</span><br><span class="line">import &#123; ref &#125; from &#x27;vue&#x27;</span><br><span class="line"></span><br><span class="line">// 设置文档网络地址，可以是本地文件</span><br><span class="line">const src = ref()</span><br><span class="line"></span><br><span class="line">// 本地预览</span><br><span class="line">const previewFile = async (event: Event) =&gt; &#123;</span><br><span class="line">  const file = (event.target as HTMLInputElement).files?.[0]</span><br><span class="line">  src.value = file</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 请求预览</span><br><span class="line">const getFile = () =&gt; &#123;</span><br><span class="line">  src.value = &#x27;https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/solution/demo.docx&#x27;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;button @click=&quot;getFile&quot;&gt;获取远程&lt;/button&gt;</span><br><span class="line">  &lt;input type=&quot;file&quot; accept=&quot;.docx&quot; @change=&quot;previewFile&quot; /&gt;</span><br><span class="line">  &lt;vue-office-docx :src=&quot;src&quot; style=&quot;height: 100vh&quot; /&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="xlsx-预览-1"><a href="#xlsx-预览-1" class="headerlink" title="xlsx 预览"></a>xlsx 预览<a target="_blank" rel="noopener" href="https://megasu.atomgit.net/front-end-solutions/solutions/file-view.html#xlsx-%E9%A2%84%E8%A7%88-1"></a></h3><ul>
+<li>安装依赖 <code>npm i @vue-office/excel</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=&quot;ts&quot;&gt;</span><br><span class="line">// 引入 VueOffice 组件</span><br><span class="line">import VueOfficeExcel from &#x27;@vue-office/excel&#x27;</span><br><span class="line">// 引入相关样式</span><br><span class="line">import &#x27;@vue-office/excel/lib/index.css&#x27;</span><br><span class="line">import &#123; ref &#125; from &#x27;vue&#x27;</span><br><span class="line"></span><br><span class="line">// 设置文档网络地址，可以是本地文件</span><br><span class="line">const src = ref()</span><br><span class="line"></span><br><span class="line">// 本地预览</span><br><span class="line">const previewFile = async (event: Event) =&gt; &#123;</span><br><span class="line">  const file = (event.target as HTMLInputElement).files?.[0]</span><br><span class="line">  src.value = file</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 请求预览</span><br><span class="line">const getFile = () =&gt; &#123;</span><br><span class="line">  src.value = &#x27;https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/solution/demo.xlsx&#x27;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;button @click=&quot;getFile&quot;&gt;获取远程&lt;/button&gt;</span><br><span class="line">  &lt;input type=&quot;file&quot; accept=&quot;.xlsx&quot; @change=&quot;previewFile&quot; /&gt;</span><br><span class="line">  &lt;vue-office-excel :src=&quot;src&quot; style=&quot;height: 100vh&quot; /&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="私有化-office-部署-运维部署"><a href="#私有化-office-部署-运维部署" class="headerlink" title="私有化 office 部署(运维部署)"></a>私有化 office 部署(运维部署)</h2><p>ONLYOFFICE Docs是一个免费的协作在线办公套件，包括文本、电子表格和演示文稿的查看器和编辑器，还有表单和PDF，完全兼容Office Open XML格式：.docx、.xlsx、.pptx，并支持实时协作编辑。</p>
+<p>类似国内的腾讯文档，金山文档，在线 WPS 文档，而 ONLYOFFICE 可私有化部署到公司服务器，文件隐私相对更高，部署工作由公司运维负责。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/ONLYOFFICE/DocumentServer">ONLY OFFICE 开源仓库 - star 3.4k</a></li>
+<li><a target="_blank" rel="noopener" href="https://helpcenter.onlyoffice.com/installation/docs-community-install-docker.aspx">ONLY OFFICE docker 部署教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://helpcenter.onlyoffice.com/installation/docs-community-install-windows.aspx">ONLY OFFICE 社区版部署教程</a></li>
+</ul>
+<h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读<a target="_blank" rel="noopener" href="https://megasu.atomgit.net/front-end-solutions/solutions/file-view.html#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"></a></h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/microsoft-365/blog/2013/04/10/office-web-viewer-view-office-documents-in-a-browser/">微软官方 office 在线预览</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7071598747519549454">前端实现文件的预览</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/501351981/vue-office">pdf.js - star 43k</a></li>
+<li><a target="_blank" rel="noopener" href="https://mozilla.github.io/pdf.js/examples/">pdfjs examples - Mozilla</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/501351981/vue-office">vue-office 组件 - star 824</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/zhuye1993/file-view">file-view 组件 - star 242</a></li>
+<li><a target="_blank" rel="noopener" href="https://officetohtml.js.org/pages/demos.html">OFFICE TO HTML - star 158</a></li>
+<li><a target="_blank" rel="noopener" href="https://helpcenter.onlyoffice.com/installation/docs-community-install-windows.aspx">onlyoffice 社区版部署教程</a></li>
+</ul>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文为转载，原文链接：<a target="_blank" rel="noopener" href="https://megasu.atomgit.net/front-end-solutions/solutions/file-view.html">前端解决方案</a></p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2023/06/09/%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BE/">高德地图 搜索/定位/地图控件</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/06/08/%E5%A4%A7%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%20%E5%88%86%E7%89%87%20%E7%BB%AD%E4%BC%A0%20%E7%A7%92%E4%BC%A0/">大文件上传 分片 续传 秒传</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期发布</a><a href="/categories/">文章分类</a><a href="/tags/">文章标签</a><a href="/archives/">文章归档</a></div><div class="sitemap-group"><span class="fs15">动态</span><a href="/">---------</a><a href="/">---------</a><a href="/news/">2025</a><a href="/news/his/">归档动态</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/more/">我的订阅</a><a href="/more/music/">我的歌单</a><a href="/more/about/">关于本站</a><a href="/more/me/">关于博主</a></div></div><div class="text"><p>本站使用 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">Hexo</a> 框架和 <a target="_blank" rel="noopener" href="https://xaoxuu.com/wiki/stellar/#start">Stellar</a> 主题创建。<br>本站所有内容均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">署名-非商业性使用-禁止演绎 4.0 国际</a> 许可协议，未经授权请勿转载。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%94%E7%A4%BA%E7%8E%AF%E5%A2%83"><span class="toc-text">演示环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E8%BD%AF-Office-Web-Viewer"><span class="toc-text">微软 Office Web Viewer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E5%AE%9E%E7%8E%B0"><span class="toc-text">前端实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pdf-%E9%A2%84%E8%A7%88"><span class="toc-text">pdf 预览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E9%80%89%E6%8B%A9"><span class="toc-text">本地选择</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E8%AF%B7%E6%B1%82"><span class="toc-text">远程请求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docx-%E9%A2%84%E8%A7%88"><span class="toc-text">docx 预览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E9%80%89%E6%8B%A9-1"><span class="toc-text">本地选择</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E8%AF%B7%E6%B1%82-1"><span class="toc-text">远程请求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xlsx-%E9%A2%84%E8%A7%88"><span class="toc-text">xlsx 预览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E9%80%89%E6%8B%A9-2"><span class="toc-text">本地选择</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E8%AF%B7%E6%B1%82-2"><span class="toc-text">远程请求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-office-%E7%BB%84%E4%BB%B6-%E6%8E%A8%E8%8D%90"><span class="toc-text">vue-office 组件 - 推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pdf-%E9%A2%84%E8%A7%88-1"><span class="toc-text">pdf 预览</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docx-%E9%A2%84%E8%A7%88-1"><span class="toc-text">docx 预览</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xlsx-%E9%A2%84%E8%A7%88-1"><span class="toc-text">xlsx 预览</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E5%8C%96-office-%E9%83%A8%E7%BD%B2-%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2"><span class="toc-text">私有化 office 部署(运维部署)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"><span class="toc-text">扩展阅读</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.29.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    }
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
