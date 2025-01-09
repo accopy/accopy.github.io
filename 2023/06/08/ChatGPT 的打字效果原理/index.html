@@ -190,7 +190,7 @@
 
 
 
-<footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期发布</a><a href="/categories/">文章分类</a><a href="/tags/">文章标签</a><a href="/archives/">文章归档</a></div><div class="sitemap-group"><span class="fs15">动态</span><a href="/">---------</a><a href="/">---------</a><a href="/news/">2025</a><a href="/news/his/">归档动态</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/more/">我的订阅</a><a href="/more/music/">我的歌单</a><a href="/more/about/">关于本站</a><a href="/more/me/">关于博主</a></div></div><div class="text"><p>本站使用 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">Hexo</a> 框架和 <a target="_blank" rel="noopener" href="https://xaoxuu.com/wiki/stellar/#start">Stellar</a> 主题创建。<br>本站所有内容均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">署名-非商业性使用-禁止演绎 4.0 国际</a> 许可协议，未经授权请勿转载。</p>
+<footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期发布</a><a href="/categories/">文章分类</a><a href="/tags/">文章标签</a><a href="/archives/">文章归档</a></div><div class="sitemap-group"><span class="fs15">维基</span><a href="/wiki/">所有维基</a><a href="/">---------</a><a href="/">---------</a><a href="/">---------</a></div><div class="sitemap-group"><span class="fs15">动态</span><a href="/news/">2025🔥</a><a href="/news/his/">归档动态</a><a href="/">---------</a><a href="/">---------</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/more/">我的订阅</a><a href="/more/music/">我的歌单</a><a href="/more/about/">关于本站</a><a href="/more/me/">关于博主</a></div></div><div class="text"><p>本站使用 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">Hexo</a> 框架和 <a target="_blank" rel="noopener" href="https://xaoxuu.com/wiki/stellar/#start">Stellar</a> 主题创建。<br>本站所有内容均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">署名-非商业性使用-禁止演绎 4.0 国际</a> 许可协议，未经授权请勿转载。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
 <div class="widgets">
@@ -520,6 +520,30 @@
 
 
 <!-- optional -->
+
+  <script type="module">
+  const el = document.querySelector('#comments #giscus');
+  util.viewportLazyload(el, load_discus, false);
+
+  function load_discus() {
+    if (!el) return;
+    try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      const script = document.createElement('script');
+      script.async = true;
+      for (const key of Object.keys(el.attributes)) {
+        const attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+  }
+</script>
+
 
 
 
